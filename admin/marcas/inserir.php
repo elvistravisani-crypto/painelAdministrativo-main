@@ -68,8 +68,8 @@
             <form action="acoes.php" method="post">
               <div class="row">
                 <div class="col-6">
-                  <label for="categoria"><strong class="text-danger">*</strong>Marca: </label>
-                  <input type="text" name="categoria" id="categoria" class="form-control" maxlength="40" required>
+                  <label for="marca"><strong class="text-danger">*</strong>Marca: </label>
+                  <input type="text" name="marca" id="marca" class="form-control" maxlength="40" required>
                 </div>
 
                 <div class="col-6">
@@ -80,9 +80,11 @@
                   </select>
                 </div>
 
-                <div class="col-12 mt-2">
-                    
-                  <input type="hidden" name="cadastrar" value="cadastrar_categoria">
+                    <div class="col-12 mt-2">
+                  <label for="observacao">Descrição: </label>
+                  <textarea name="observacao" id="observacao" class="form-control" maxlength="100"></textarea>
+
+                  <input type="hidden" name="cadastrar" value="cadastrar_marca">
 
                   <input type="submit" value="Cadastrar" class="btn btn-primary mt-3 px-5">
                 </div>

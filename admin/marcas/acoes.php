@@ -9,14 +9,15 @@ require_once __DIR__. "/../../conexao/conecta.php";
       session_start();
     }
 
-#CADASTRANDO UM NOVA#
+#CADASTRANDO UMA NOVA#
 
     
 if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_marca")
-    {
+    {   /* PARA SEGURANÇA EVITANDO CARACTERES ESPECIAIS */
         $marca = mysqli_real_escape_string($conexao, $_POST['marca']);
+        $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
 
-        $sql = "INSERT INTO marca VALUES (0,'$marca',  1, NOW())";
+        $sql = "INSERT INTO marca VALUES (0,'$marca', '$observacao', NOW(), 1)";
 
         try
         {

@@ -16,7 +16,7 @@ if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_categoria")
     {
         $categoria = mysqli_real_escape_string($conexao, $_POST['categoria']);
 
-        $sql = "INSERT INTO categoria VALUES (0,'$categoria',  1, NOW())";
+        $sql = "INSERT INTO categoria VALUES (0,'$categoria', NOW(), 1)";
 
         try
         {
