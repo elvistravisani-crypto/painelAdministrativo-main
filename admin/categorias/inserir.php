@@ -54,7 +54,7 @@
 
         <div class="card">
           <div class="card-header d-flex justify-content-between">
-            <h4 class="m-0">Novo Cargo</h4>
+            <h4 class="m-0">Nova Categoria</h4>
 
             <a href="Index.php" class="btn btn-primary btn-sm">
               <i class="bi bi-arrow-left-short"></i>
@@ -64,11 +64,12 @@
           </div>
 
           <div class="card-body">
+
             <form action="acoes.php" method="post">
               <div class="row">
                 <div class="col-6">
-                  <label for="cargo"><strong class="text-danger">*</strong>Cargo: </label>
-                  <input type="text" name="cargo" id="cargo" class="form-control" maxlength="40" required>
+                  <label for="categoria"><strong class="text-danger">*</strong>Categoria: </label>
+                  <input type="text" name="categoria" id="categoria" class="form-control" maxlength="40" required>
                 </div>
 
                 <div class="col-6">
@@ -80,15 +81,14 @@
                 </div>
 
                 <div class="col-12 mt-2">
-                  <label for="observacao">Observação: </label>
-                  <textarea name="observacao" id="observacao" class="form-control" maxlength="100"></textarea>
-
-                  <input type="hidden" name="cadastrar" value="cadastrar_cargo">
+                    
+                  <input type="hidden" name="cadastrar" value="cadastrar_categoria">
 
                   <input type="submit" value="Cadastrar" class="btn btn-primary mt-3 px-5">
                 </div>
               </div>
             </form>
+
           </div>
         </div>
       </main>

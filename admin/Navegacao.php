@@ -27,14 +27,14 @@
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/categorias">
           <i class="bi bi-stack"></i>
           Categorias
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/marcas">
           <i class="bi bi-bag-fill"></i>
           Marcas
         </a>

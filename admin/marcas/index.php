@@ -53,7 +53,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
         <div class="card">
           <div class="card-header d-flex justify-content-between">
-            <h4 class="m-0">Cargos</h4>
+            <h4 class="m-0">Marcas</h4>
 
             <a href="inserir.php" class="btn btn-primary btn-sm">
               <i class="bi bi-plus"></i>
@@ -64,7 +64,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
           <?php
 
-          $sql = "SELECT * FROM cargo";
+          $sql = "SELECT * FROM marca";
 
           $query = mysqli_query($conexao, $sql);
 
@@ -88,10 +88,10 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                   </form>
                 </div>
 
-                <!-- CAMPO DE BUSCA POR NOME DO CARGO -->
+                <!-- CAMPO DE BUSCA POR NOME DO marca -->
                 <div class="col-4">
                   <form action="">
-                    <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por cargo...">
+                    <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por marca...">
                   </form>
                 </div>
               </div>
@@ -106,40 +106,35 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                   <tr>
                     <!-- Table Head: Título da Coluna -->
                     <th>ID</th>
-                    <th>Cargo</th>
-                    <th>Observação</th>
+                    <th>marca</th>
                     <th>Status</th>
                     <th>Data Cadastro</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
 
+
+                <!-- CONTEÚDO VISUAL NO DA PÁGINA INICIAL DE marcaS  -->
+
                 <!-- Corpo da Tabela -->
                 <tbody>
-                  <?php foreach ($query as $cargo) { ?>
+                  <?php foreach ($query as $marca) { ?>
 
                     <!-- Linha da Tabela -->
                     <tr>
                       <!-- Table Data: Dados da Tabela -->
-                      <td><?php echo $cargo['codigo_cargo'] ?></td>
-
-
-
+                      <td><?php echo $marca['codigo_marca'] ?></td>
 
                       <td>
                         <?php
-                         echo $cargo['nome'] 
+                         echo $marca['nome'] 
                          ?>
                          </td>
-
-                      <td>
-                        <?php echo $cargo['observacao'] 
-                        ?>
-                      </td>
-                      <!-- Cargo -->
+                 
+                      <!-- marca -->
                       <td>
                         <?php
-                        if ($cargo['status'] == 1) {
+                        if ($marca['status'] == 1) {
                           echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
                         } else {
                           echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
@@ -148,7 +143,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                       </td>
                      <!-- data -->
                       <td>
-                        <?php echo date('d/m/Y', strtotime($cargo['data_cadastro'])) ?>
+                        <?php echo date('d/m/Y', strtotime($marca['data_cadastro'])) ?>
                       </td>
 
                       <td>
@@ -169,7 +164,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
           <?php
           } else {
             echo '<div class="alert alert-warning" role="alert">
-                   Nenhum cargo encontrado!
+                   Nenhuma marca encontrada!
                  </div>';
           }
           ?>
