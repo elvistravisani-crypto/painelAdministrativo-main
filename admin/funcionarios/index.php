@@ -1,13 +1,10 @@
-<?php
-/* CONEXÃO COM O BANCO DE DADOS */
-require_once __DIR__ . "/../../conexao/conecta.php";
-# INICIANDO A SESSÃO #
-  if (!isset($_SESSION))
-    {
-      session_start();
-    }
+<?php 
+
+  // conexao com o banco
+  require_once __DIR__ . "../../../conexao/conecta.php";
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -32,6 +29,9 @@ require_once __DIR__ . "/../../conexao/conecta.php";
   <!-- FAVICON -->
   <link rel="shortcut icon" href="../../assets/img/favicon.ico" type="image/x-icon">
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../custom/css/style.css">
+
 
 </head>
 
@@ -41,28 +41,6 @@ require_once __DIR__ . "/../../conexao/conecta.php";
   #Início TOPO
   include('../Topo.php');
   #Final TOPO
-  ?>
-
-  <?php
-  /**
-   * Busca a foto do funcionário na pasta assets/img/funcionarios
-   * pelo ID. Aceita jpg, jpeg, png e webp.
-   * Se não encontrar, usa a imagem placeholder padrão.
-   */
-  function fotoFuncionario($id)
-  {
-    $pastaRelativa = '../../assets/img/funcionarios/';
-    $pastaAbsoluta = __DIR__ . '/../../assets/img/funcionarios/';
-    $extensoes = ['jpg', 'jpeg', 'png', 'webp'];
-
-    foreach ($extensoes as $ext) {
-      if (file_exists($pastaAbsoluta . $id . '.' . $ext)) {
-        return $pastaRelativa . $id . '.' . $ext;
-      }
-    }
-
-    return '../../assets/img/placeholder-funcionario.png';
-  }
   ?>
 
   <div class="container-fluid">
@@ -79,147 +57,218 @@ require_once __DIR__ . "/../../conexao/conecta.php";
         ?>
 
         <div class="card">
-          <div class="card-header d-flex justify-content-between">
-            <h4 class="m-0">Funcionarios</h4>
 
-            <a href="inserir.php" class="btn btn-primary btn-sm">
+          <div class="card-header d-flex justify-content-between">
+            <h4 class="m-0">Funcionários</h4>
+
+            <a href="Inserir.php" class="btn btn-primary btn-sm">
               <i class="bi bi-plus"></i>
 
               Adicionar
             </a>
+
           </div>
 
-          <?php
+          <!-- COLA O PHP DO SELECT AQUI -->
 
-          $sql = "SELECT funcionario.foto, funcionario.codigo_funcionario, funcionario.nome, funcionario.nome_social, cargo.nome as 'cargo_funcionario', funcionario.status, funcionario.salario, funcionario.data_nascimento 
-           FROM funcionario
-           INNER JOIN cargo
-           ON funcionario.codigo_cargo = cargo.codigo_cargo;";
+            <?php 
+                // CODIGO SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php
+              $sql = "SELECT id_funcionario FROM funcionario";
 
-          $query = mysqli_query($conexao, $sql);
+              // A FUNÇÃO DO MYSQL_QUERY REALIZA A CONEXÃO COM O BANCO DE DADOS E EXECUTA O COMANDO SQL
+              $query = mysqli_query($conexao, $sql);
 
-          if (mysqli_num_rows($query) > 0) {
+              if(mysqli_num_rows($query) > 0)
+                {
+                
+             
+            ?>
 
-          ?>
+          <div class="card-body">
 
-            <div class="card-body">
-              <div class="row">
-                <!-- FILTRO POR STATUS -->
-                <div class="col-2">
-                  <form action="">
-                    <select name="status" id="status" class="form-control">
-                      <option value="">Status</option>
-                      <option value="1">Ativo</option>
-                      <option value="0">Inativo</option>
-                    </select>
-                  </form>
-                </div>
+            <div class="row pb-2">
+              <!-- FILTRO POR STATUS -->
+              <div class="col-2">
+                <form action="">
 
-                <!-- CAMPO DE BUSCA POR NOME DO CARGO -->
-                <div class="col-4">
-                  <form action="">
-                    <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por cargo...">
-                  </form>
-                </div>
+                  <select name="sexo" id="sexo" class="form-control">
+
+                    <option value="">Sexo </option>
+                    <option value="1">Masculino </option>
+                    <option value="0">Feminino </option>
+
+                  </select>
+
+                </form>
+
               </div>
-            </div>
 
-            <div class="card-body">
-              <!-- Tabela -->
-              <table class="table">
-                <!-- Cabeçalho da Tabela -->
-                <thead class="table-dark">
-                  <!-- Table Row: Linha da Tabela -->
-                  <tr>
-                    <!-- Table Head: Título da Coluna -->
-                    <th>Foto</th>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Cargo</th>
-                    <th>Status</th>
-                    <th>Salario</th>
-                    <th>Data nascimento</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
+               <div class="col-2">
+                <form action="">
 
-                <!-- Corpo da Tabela -->
-                <tbody>
-                  <?php foreach ($query as $funcionario) { ?>
+                  <select name="status" id="status" class="form-control">
 
-                    <!-- Linha da Tabela -->
-                    <tr>
-                      <!-- Table Data: Dados da Tabela -->
-                      <td>
-                        <div class="foto-table">
-                          <?php
-                          if ($funcionario['foto'] != '') {
-                            echo '<img src="../../imagens/' . $funcionario['foto'] . '" alt="' . $funcionario['nome'] . '" class="rounded-circle obj-cover" style="width: 100px; height: 100px;">';
-                          } else {
-                            echo '<img src="../../assets/img/placeholder-funcionario.png" alt="' . $funcionario['nome'] . '" class="rounded-circle obj-cover" style="width: 100px; height: 100px;">';
-                          }
-                          ?>
-                        </div>
-                      </td>
+                    <option value="">Status </option>
+                    <option value="1">Ativo </option>
+                    <option value="0">Inativo </option>
 
-                      <td><?php echo $funcionario['codigo_funcionario'] ?></td>
+                  </select>
 
-                      <td><?php echo $funcionario['nome'] ?></td>
+                </form>
 
-                      <td><?php echo $funcionario['cargo_funcionario'] ?></td>
+              </div>
 
-                      <!-- Status -->
-                      <td>
-                        <?php
-                        if ($funcionario['status'] == 1) {
-                          echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
-                        } else {
-                          echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
+                <div class="col-2">
+                <form action="">
+
+                  <select name="cargo" id="cargo" class="form-control">
+
+                    <option value="">Cargo </option>
+                    <?php 
+
+                      $sql_cargo = "SELECT id_cargo, nome FROM cargo WHERE status = 1";
+
+                      $query_cargo = mysqli_query($conexao, $sql_cargo);
+                    
+                      foreach($query_cargo as $cargo)
+                        {
+                          // CONCATENANDO O NOME COM VALOR
+                         echo '<option value="'. $cargo['id_cargo'] .'">'.$cargo['nome'].'</option>';
                         }
-                        ?>
-                      </td>
+                    ?>
 
-                      <td><?php echo $funcionario['salario'] ?></td>
+                  </select>
 
-                      <!-- data -->
-                      <td>
-                        <?php echo date('d/m/Y', strtotime($funcionario['data_nascimento'])) ?>
-                      </td>
+                </form>
 
-                      <td>
-                        <a href="Etidar.php" class="btn btn-outline-success btn-sm" title="Editar">
-                          <i class="bi bi-pencil"></i>
-                        </a>
+              </div>
 
-                        <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir">
-                          <i class="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
+                <div class="col-2">
+                <form action="">
 
-                  <?php } ?>
-                </tbody>
-              </table>
+                  <select name="Cidade" id="Cidade" class="form-control">
+
+                    <option value="">Cidade </option>
+
+                    <?php
+                    
+                    // TRAZER APENAS UMA VEZ A CIDADE
+                    $sql = "SELECT DISTINCT cidade FROM funcionario";
+
+                    $query_cidade = mysqli_query($conexao, $sql);
+
+                    foreach($query_cidade as $cidade)
+                      {
+                        echo '<option value="'.$cidade['cidade'].'">'.$cidade['cidade'].'</option>';
+                      }
+
+                    ?>
+
+                    
+
+                  </select>
+
+                </form>
+
+              </div>
+
+              <!-- BUSCA POR NOME -->
+              <div class="col-4">
+
+                <form action="">
+
+                <?php 
+
+                $nome =  "%" .  $_GET['pesquisa'] . "%";
+
+                $sql = "SELECT * FROM funcionario WHERE nome LIKE ?";
+
+                $stmt = mysqli_prepare($conexao, $sql);
+
+                mysqli_stmt_bind_param($stmt, 's', $nome);
+
+                mysqli_stmt_execute($stmt);
+
+                $query = mysqli_stmt_reset($stmt);
+
+                ?>
+                  <!-- TIPO SEARCH SO DE DA ENTER ELE ENTENDE QUE PRECISA FAZER UMA BUSCA, E NAO VAI PRECISAR DE UM BOTÃO -->
+                  <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do Funcionário">
+                </form>
+
+              </div>
+
             </div>
-          <?php
-          } else {
-            echo '<div class="alert alert-warning m-3" role="alert">Nenhum registro encontrado!</div>';
-          }
-          ?>
 
+          </div>
 
+          <div class="card-body p-0">
+           <!-- ONDE VAI APARECER A TABELA -->
+            <div id="table"></div>
+
+          </div>
+
+            <?php 
+                }
+                else
+                  {
+              echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+                    Nenhum registro encontrado
+                  </div>
+                </div>';
+                  }
+
+            ?>
 
         </div>
+
       </main>
+
     </div>
+
   </div>
 
-  <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
-  <?php mysqli_close($conexao) ?>
+  <!-- fechar a conexão do banco -->
+ <?php mysqli_close($conexao)?>
+
   <!-- JQUERY CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <!-- FILTROS -->
+   <script>
+      //FUNÇÃO PARA LISTAR OS FUNCIONARIOS
+      function Listar(sexo, status, cargo, cidade, nome)
+      {   
+          // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA UM TEXTO DENTRO DELE
+          $('#table').text('Carregando...');
+
+          $.ajax({
+
+          url: "tabela.php", 
+          method: "Post",
+          data: 
+          {
+            sexo, status, cargo, cidade, nome
+          },
+          dataType: "html",
+          
+          success: function(resultado)
+          {
+            $('#table').html(resultado);
+          }
+
+          })
+      } 
+
+      //EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA
+      $(document).ready(function(){
+        Listar(); //CARREGAR A TABELA NOVAMENTE NA PAGINA
+      })
+
+   </script>
+
 </body>
 
 </html>
