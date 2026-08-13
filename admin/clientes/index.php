@@ -1,6 +1,11 @@
 <?php
 /* CONEXÃO COM O BANCO DE DADOS */
 require_once __DIR__ . "/../../conexao/conecta.php";
+# INICIANDO A SESSÃO #
+  if (!isset($_SESSION))
+    {
+      session_start();
+    }
 
 ?>
 <!DOCTYPE html>
@@ -38,6 +43,28 @@ require_once __DIR__ . "/../../conexao/conecta.php";
   #Final TOPO
   ?>
 
+  <?php
+  /**
+   * Busca a foto do funcionário na pasta assets/img/clientes
+   * pelo ID. Aceita jpg, jpeg, png e webp.
+   * Se não encontrar, usa a imagem placeholder padrão.
+   */
+  function fotocliente($id)
+  {
+    $pastaRelativa = '../../assets/img/clientes/';
+    $pastaAbsoluta = __DIR__ . '/../../assets/img/clientes/';
+    $extensoes = ['jpg', 'jpeg', 'png', 'webp'];
+
+    foreach ($extensoes as $ext) {
+      if (file_exists($pastaAbsoluta . $id . '.' . $ext)) {
+        return $pastaRelativa . $id . '.' . $ext;
+      }
+    }
+
+    return '../../assets/img/placeholder-cliente.png';
+  }
+  ?>
+
   <div class="container-fluid">
     <div class="row">
       <?php
@@ -53,7 +80,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
         <div class="card">
           <div class="card-header d-flex justify-content-between">
-            <h4 class="m-0">Cargos</h4>
+            <h4 class="m-0">clientes</h4>
 
             <a href="inserir.php" class="btn btn-primary btn-sm">
               <i class="bi bi-plus"></i>
@@ -64,14 +91,14 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
           <?php
 
-          $sql_cargo = "SELECT * FROM cargo";
+          $sql = "SELECT cliente.foto, cliente.codigo_cliente, cliente.nome, cliente.nome_social, cargo.nome as 'cargo_cliente', cliente.status, cliente.salario, cliente.data_nascimento 
+           FROM cliente
+           INNER JOIN cargo
+           ON cliente.codigo_cargo = cargo.codigo_cargo;";
 
-          $query_cargo = mysqli_query($conexao, $sql_cargo);
+          $query = mysqli_query($conexao, $sql);
 
-          if (mysqli_num_rows($query_cargo) > 0) {
-
-
-
+          if (mysqli_num_rows($query) > 0) {
 
           ?>
 
@@ -80,10 +107,10 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                 <!-- FILTRO POR STATUS -->
                 <div class="col-2">
                   <form action="">
-                    <select name="status" id="status" class="form-control" onchange="submit()">
+                    <select name="status" id="status" class="form-control">
                       <option value="">Status</option>
-                      <option value="1" <?php if (isset($_GET['status']) && $_GET['status'] == '1') echo 'selected'?>>Ativo</option>
-                      <option value="0" <?php if (isset($_GET['status']) && $_GET['status'] == '0') echo 'selected'?>>Inativo</option>
+                      <option value="1">Ativo</option>
+                      <option value="0">Inativo</option>
                     </select>
                   </form>
                 </div>
@@ -96,32 +123,6 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                 </div>
               </div>
             </div>
-                        <?php 
-            if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '')
-              {
-
-                $pesquisa = mysqli_real_escape_string($conexao, $_GET['pesquisa']);
-
-                $sql = "SELECT * FROM cargo WHERE nome LIKE '%$pesquisa%'";
-                
-              }
-              elseif (isset($_GET['status']) && $_GET['status'] != '')
-                {
-                  $status =mysqli_escape_string($conexao, $_GET['status']);
-
-                  $sql = "SELECT * FROM cargo WHERE status = $status";
-                }
-                else
-                  {
-                    $sql = "SELECT * FROM cargo";
-                  }
-
-                  $query = mysqli_query($conexao, $sql);
-
-                  if (mysqli_num_rows($query) >0 )
-               {
-            
-            ?>
 
             <div class="card-body">
               <!-- Tabela -->
@@ -131,54 +132,62 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                   <!-- Table Row: Linha da Tabela -->
                   <tr>
                     <!-- Table Head: Título da Coluna -->
+                    <th>Foto</th>
                     <th>ID</th>
+                    <th>Nome</th>
                     <th>Cargo</th>
-                    <th>Observação</th>
                     <th>Status</th>
-                    <th>Data Cadastro</th>
+                    <th>Salario</th>
+                    <th>Data nascimento</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
 
                 <!-- Corpo da Tabela -->
                 <tbody>
-                  <?php foreach ($query as $cargo) { ?>
+                  <?php foreach ($query as $cliente) { ?>
 
                     <!-- Linha da Tabela -->
                     <tr>
                       <!-- Table Data: Dados da Tabela -->
-                      <td><?php echo $cargo['codigo_cargo'] ?></td>
-
-
-
-
                       <td>
-                        <?php
-                         echo $cargo['nome'] 
-                         ?>
-                         </td>
-
-                      <td>
-                        <?php echo $cargo['observacao'] 
-                        ?>
+                        <div class="foto-table">
+                          <?php
+                          if ($cliente['foto'] != '') {
+                            echo '<img src="../../imagens/' . $cliente['foto'] . '" alt="' . $cliente['nome'] . '" class="rounded-circle obj-cover" style="width: 100px; height: 100px;">';
+                          } else {
+                            echo '<img src="../../assets/img/placeholder-cliente.png" alt="' . $cliente['nome'] . '" class="rounded-circle obj-cover" style="width: 100px; height: 100px;">';
+                          }
+                          ?>
+                        </div>
                       </td>
-                      <!-- Cargo -->
+
+                      <td><?php echo $cliente['codigo_cliente'] ?></td>
+
+                      <td><?php echo $cliente['nome'] ?></td>
+
+                      <td><?php echo $cliente['cargo_cliente'] ?></td>
+
+                      <!-- Status -->
                       <td>
                         <?php
-                        if ($cargo['status'] == 1) {
+                        if ($cliente['status'] == 1) {
                           echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
                         } else {
                           echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
                         }
                         ?>
                       </td>
-                     <!-- data -->
+
+                      <td><?php echo $cliente['salario'] ?></td>
+
+                      <!-- data -->
                       <td>
-                        <?php echo date('d/m/Y', strtotime($cargo['data_cadastro'])) ?>
+                        <?php echo date('d/m/Y', strtotime($cliente['data_nascimento'])) ?>
                       </td>
 
                       <td>
-                        <a href="Editar.php" class="btn btn-outline-success btn-sm" title="Editar">
+                        <a href="Etidar.php" class="btn btn-outline-success btn-sm" title="Editar">
                           <i class="bi bi-pencil"></i>
                         </a>
 
@@ -192,18 +201,9 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                 </tbody>
               </table>
             </div>
-            <?php 
-            } else {
-            echo '<div class="alert alert-warning" role="alert">
-                   Nenhum cargo encontrado!
-                 </div>';
-          }
-            ?>
           <?php
           } else {
-            echo '<div class="alert alert-warning" role="alert">
-                   Nenhum cargo encontrado!
-                 </div>';
+            echo '<div class="alert alert-warning m-3" role="alert">Nenhum registro encontrado!</div>';
           }
           ?>
 
@@ -213,9 +213,9 @@ require_once __DIR__ . "/../../conexao/conecta.php";
       </main>
     </div>
   </div>
-  
- <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
-  <?php mysqli_close($conexao)?>
+
+  <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
+  <?php mysqli_close($conexao) ?>
   <!-- JQUERY CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->

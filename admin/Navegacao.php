@@ -48,7 +48,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/clientes">
           <i class="bi bi-people-fill"></i>
           Clientes
         </a>
