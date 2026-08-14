@@ -25,6 +25,7 @@
   <!-- CUSTOMIZAÇÃO DO TEMPLATE -->
   <link rel="stylesheet" href="../../assets/css/dashboard.min.css">
   <link rel="stylesheet" href="../../assets/css/styles.min.css">
+  <link rel="stylesheet" href="../../custom/css/style.css">
 
   <!-- FAVICON -->
   <link rel="shortcut icon" href="../../assets/img/favicon.ico" type="image/x-icon">
@@ -73,7 +74,7 @@
 
             <?php 
                 // CODIGO SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php
-              $sql = "SELECT id_funcionario FROM funcionario";
+              $sql = "SELECT codigo_funcionario FROM funcionario";
 
               // A FUNÇÃO DO MYSQL_QUERY REALIZA A CONEXÃO COM O BANCO DE DADOS E EXECUTA O COMANDO SQL
               $query = mysqli_query($conexao, $sql);
@@ -126,14 +127,15 @@
                     <option value="">Cargo </option>
                     <?php 
 
-                      $sql_cargo = "SELECT id_cargo, nome FROM cargo WHERE status = 1";
+                      // CORRIGIDO: A COLUNA NO BANCO É codigo_cargo, NÃO id_cargo
+                      $sql_cargo = "SELECT codigo_cargo, nome FROM cargo WHERE status = 1";
 
                       $query_cargo = mysqli_query($conexao, $sql_cargo);
                     
                       foreach($query_cargo as $cargo)
                         {
                           // CONCATENANDO O NOME COM VALOR
-                         echo '<option value="'. $cargo['id_cargo'] .'">'.$cargo['nome'].'</option>';
+                         echo '<option value="'. $cargo['codigo_cargo'] .'">'.$cargo['nome'].'</option>';
                         }
                     ?>
 
@@ -177,21 +179,6 @@
 
                 <form action="">
 
-                <?php 
-
-                $nome =  "%" .  $_GET['pesquisa'] . "%";
-
-                $sql = "SELECT * FROM funcionario WHERE nome LIKE ?";
-
-                $stmt = mysqli_prepare($conexao, $sql);
-
-                mysqli_stmt_bind_param($stmt, 's', $nome);
-
-                mysqli_stmt_execute($stmt);
-
-                $query = mysqli_stmt_reset($stmt);
-
-                ?>
                   <!-- TIPO SEARCH SO DE DA ENTER ELE ENTENDE QUE PRECISA FAZER UMA BUSCA, E NAO VAI PRECISAR DE UM BOTÃO -->
                   <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do Funcionário">
                 </form>
@@ -238,35 +225,44 @@
 
   <!-- FILTROS -->
    <script>
+
       //FUNÇÃO PARA LISTAR OS FUNCIONARIOS
       function Listar(sexo, status, cargo, cidade, nome)
       {   
-          // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA UM TEXTO DENTRO DELE
-          $('#table').text('Carregando...');
-
+          // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
           $.ajax({
-
-          url: "tabela.php", 
-          method: "Post",
-          data: 
-          {
-            sexo, status, cargo, cidade, nome
-          },
-          dataType: "html",
-          
-          success: function(resultado)
-          {
-            $('#table').html(resultado);
-          }
-
-          })
+              url: 'tabela.php',
+              type: 'GET',
+              data: {
+                  sexo: sexo,
+                  status: status,
+                  cargo: cargo,
+                  cidade: cidade,
+                  pesquisa: nome
+              },
+              success: function(data) {
+                  $('#table').html(data);
+              }
+          });
       } 
 
-      //EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA
-      $(document).ready(function(){
-        Listar(); //CARREGAR A TABELA NOVAMENTE NA PAGINA
-      })
+      // CHAMA A LISTAGEM ASSIM QUE A PAGINA CARREGA, SEM FILTRO NENHUM
+      $(document).ready(function() {
+          Listar('', '', '', '', '');
+      });
 
+      // TODA VEZ QUE UM FILTRO MUDAR, CHAMA A LISTAGEM DE NOVO
+      $('#sexo, #status, #cargo, #Cidade').on('change', function() {
+          Listar($('#sexo').val(), $('#status').val(), $('#cargo').val(), $('#Cidade').val(), $('#pesquisa').val());
+      });
+
+      // BUSCA POR NOME AO APERTAR ENTER
+      $('#pesquisa').on('keyup', function(e) {
+          if (e.key === 'Enter') {
+              Listar($('#sexo').val(), $('#status').val(), $('#cargo').val(), $('#Cidade').val(), $('#pesquisa').val());
+          }
+      });
+      
    </script>
 
 </body>

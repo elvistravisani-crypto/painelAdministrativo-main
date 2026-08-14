@@ -4,9 +4,9 @@
   require_once __DIR__ . "/../../conexao/conecta.php";
 
 // CODIGO SQL
-$sql = "SELECT funcionario.id_funcionario, funcionario.foto,funcionario.nome, funcionario.nome_social, cargo.nome 'cargo', funcionario.data_cadastro, funcionario.status
+$sql = "SELECT funcionario.codigo_funcionario, funcionario.foto,funcionario.nome, funcionario.nome_social, cargo.nome 'cargo', funcionario.data_cadastro, funcionario.status
 FROM funcionario 
-INNER JOIN cargo ON cargo.id_cargo = funcionario.id_cargo ";
+INNER JOIN cargo ON cargo.codigo_cargo = funcionario.codigo_cargo ";
 
 // A FUNÇÃO DO MYSQL_QUERY REALIZA A CONEXÃO COM O BANCO DE DADOS E EXECUTA O COMANDO SQL
 $query = mysqli_query($conexao, $sql);
@@ -51,14 +51,14 @@ if(mysqli_num_rows($query) > 0)
                 <!-- LINHA DA TABELA -->
                 <tr class="text-center  ">
                   <!-- TABLE DATA: DADOS DA TABELA -->
-                  <td><?php echo $funcionario['id_funcionario']?></td>
+                  <td><?php echo $funcionario['codigo_funcionario']?></td>
 
                   <td>
                     <?php 
 
                   if($funcionario['foto'] != '')
                     {
-                      echo '<img src="../../images/'. $funcionario['foto'] .'" alt="'. $funcionario['nome'] .'" class="img-funcionario">';
+                      echo '<img src="../../imagens/'. $funcionario['foto'] .'" alt="'. $funcionario['nome'] .'" class="img-funcionario">';
                     }
                   else
                     {
@@ -78,7 +78,7 @@ if(mysqli_num_rows($query) > 0)
                       }
                       else
                         {
-                          echo $funcionario[''];
+                          echo $funcionario['nome'];
                         }
                         
                     ?>
@@ -107,15 +107,16 @@ if(mysqli_num_rows($query) > 0)
                   </td>
                 </tr>
 
-               
+                <?php
+                  }
+                ?>
+
               </tbody>
 
             </table>
 
 
   <?php 
-    }
-    
     }
       else
         {
@@ -126,4 +127,3 @@ if(mysqli_num_rows($query) > 0)
         }
 
   ?>
-            

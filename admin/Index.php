@@ -17,6 +17,7 @@
   <!-- CUSTOMIZAÇÃO DO TEMPLATE -->
   <link rel="stylesheet" href="../assets/css/signin.min.css">
   <link rel="stylesheet" href="../assets/css/styles.min.css">
+  <link rel="stylesheet" href="../custom/css/style.css">
 
   <!-- FAVICON -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">

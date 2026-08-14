@@ -36,6 +36,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
     <!-- CUSTOMIZAÇÃO DO TEMPLATE -->
     <link rel="stylesheet" href="../../assets/css/dashboard.min.css">
     <link rel="stylesheet" href="../../assets/css/styles.min.css">
+    
 
     <!-- FAVICON -->
     <link rel="shortcut icon" href="../../assets/img/favicon.ico" type="image/x-icon">
