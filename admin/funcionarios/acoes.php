@@ -65,10 +65,11 @@ if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_funcionario"
             $_SESSION['mensagem'] = "Funcionário cadastrado com sucesso!";
             header('Location: inserir.php');
             exit;
-        } else {
-            $_SESSION['mensagem'] = "Erro ao cadastrar!";
+                    
+        } else {die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
+           /*  $_SESSION['mensagem'] = "Erro ao cadastrar!";
             header('Location: inserir.php');
-            exit;
+            exit; */
         }
     } 
     

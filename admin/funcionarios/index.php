@@ -100,7 +100,7 @@
                     <option value="">Sexo </option>
                     <option value="M">Masculino </option>
                     <option value="F">Feminino </option>
-                    <option value="Não">Feminino </option>
+                    <option value="Não">Não informado</option>
 
                   </select>
 
@@ -152,7 +152,7 @@
                 <div class="col-2">
                 <form action="">
 
-                  <select name="Cidade" id="Cidade" class="form-control"onchange="buscar()">
+                  <select name="cidade" id="cidade" class="form-control"onchange="buscar()">
 
                     <option value="">Cidade </option>
 
@@ -181,7 +181,7 @@
               <!-- BUSCA POR NOME -->
               <div class="col-4">
 
-                <form action="">
+                <form action="" method="POST">
 
                   <!-- TIPO SEARCH SO DE DA ENTER ELE ENTENDE QUE PRECISA FAZER UMA BUSCA, E NAO VAI PRECISAR DE UM BOTÃO -->
                   <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do Funcionário">
@@ -250,9 +250,17 @@
           });
 
       } 
-
+/* EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA */
  $(document).ready(function(){
-  listar();
+  listar(); /* CARREGAR A TABELA */  
+
+/* FUNÇÃO PARA PESQUISAR PELO NOME  */
+$('#pesquisa').keyup(function(){
+  let pesquisa = $(this).val();
+
+  listar('', '', '', '', pesquisa);
+})
+
  })
 
 /* FUNÇÃO PARA REALIZAR A BUSCA PELOS FUNCIONÁRIOS */
