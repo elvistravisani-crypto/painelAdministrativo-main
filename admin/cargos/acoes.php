@@ -10,8 +10,7 @@ require_once __DIR__. "/../../conexao/conecta.php";
     }
 
 #CADASTRANDO UM NOVO CARGO#
-
-    
+  
 if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cargo")
     {
         $cargo = mysqli_real_escape_string($conexao, $_POST['cargo']);

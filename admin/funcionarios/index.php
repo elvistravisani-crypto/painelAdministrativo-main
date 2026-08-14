@@ -37,7 +37,8 @@
 </head>
 
 <body>
-
+   
+<!--<<<<<<<<<<<<<< INCLUDES >>>>>>>>>>>>> -->
   <?php
   #Início TOPO
   include('../Topo.php');
@@ -51,6 +52,8 @@
       include('../Navegacao.php');
       #Final MENU
       ?>
+<!--<<<<<<<<<<<<<< INCLUDES >>>>>>>>>>>>> -->
+
 
       <main class="ms-auto col-lg-10 px-md-4">
         <?php
@@ -92,11 +95,12 @@
               <div class="col-2">
                 <form action="">
 
-                  <select name="sexo" id="sexo" class="form-control">
+                  <select name="sexo" id="sexo" class="form-control" onchange="buscar()">
 
                     <option value="">Sexo </option>
-                    <option value="1">Masculino </option>
-                    <option value="0">Feminino </option>
+                    <option value="M">Masculino </option>
+                    <option value="F">Feminino </option>
+                    <option value="Não">Feminino </option>
 
                   </select>
 
@@ -107,7 +111,7 @@
                <div class="col-2">
                 <form action="">
 
-                  <select name="status" id="status" class="form-control">
+                  <select name="status" id="status" class="form-control"onchange="buscar()">
 
                     <option value="">Status </option>
                     <option value="1">Ativo </option>
@@ -122,12 +126,12 @@
                 <div class="col-2">
                 <form action="">
 
-                  <select name="cargo" id="cargo" class="form-control">
+                  <select name="cargo" id="cargo" class="form-control"onchange="buscar()">
 
                     <option value="">Cargo </option>
                     <?php 
 
-                      // CORRIGIDO: A COLUNA NO BANCO É codigo_cargo, NÃO id_cargo
+                      
                       $sql_cargo = "SELECT codigo_cargo, nome FROM cargo WHERE status = 1";
 
                       $query_cargo = mysqli_query($conexao, $sql_cargo);
@@ -148,7 +152,7 @@
                 <div class="col-2">
                 <form action="">
 
-                  <select name="Cidade" id="Cidade" class="form-control">
+                  <select name="Cidade" id="Cidade" class="form-control"onchange="buscar()">
 
                     <option value="">Cidade </option>
 
@@ -191,7 +195,7 @@
 
           <div class="card-body p-0">
            <!-- ONDE VAI APARECER A TABELA -->
-            <div id="table"></div>
+            <div id="tabela"></div>
 
           </div>
 
@@ -227,12 +231,12 @@
    <script>
 
       //FUNÇÃO PARA LISTAR OS FUNCIONARIOS
-      function Listar(sexo, status, cargo, cidade, nome)
+      function listar(sexo, status, cargo, cidade, nome)
       {   
           // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
           $.ajax({
               url: 'tabela.php',
-              type: 'GET',
+              method: "POST",
               data: {
                   sexo: sexo,
                   status: status,
@@ -240,28 +244,29 @@
                   cidade: cidade,
                   pesquisa: nome
               },
-              success: function(data) {
-                  $('#table').html(data);
+              success: function(resultado) {
+                  $('#tabela').html(resultado);
               }
           });
+
       } 
 
-      // CHAMA A LISTAGEM ASSIM QUE A PAGINA CARREGA, SEM FILTRO NENHUM
-      $(document).ready(function() {
-          Listar('', '', '', '', '');
-      });
+ $(document).ready(function(){
+  listar();
+ })
 
-      // TODA VEZ QUE UM FILTRO MUDAR, CHAMA A LISTAGEM DE NOVO
-      $('#sexo, #status, #cargo, #Cidade').on('change', function() {
-          Listar($('#sexo').val(), $('#status').val(), $('#cargo').val(), $('#Cidade').val(), $('#pesquisa').val());
-      });
+/* FUNÇÃO PARA REALIZAR A BUSCA PELOS FUNCIONÁRIOS */
+      function buscar()
+      {
+        let sexo = $('#sexo').val();
+        let status = $('#status').val();
+        let cargo = $('#cargo').val();
+        let cidade = $('#cidade').val();
 
-      // BUSCA POR NOME AO APERTAR ENTER
-      $('#pesquisa').on('keyup', function(e) {
-          if (e.key === 'Enter') {
-              Listar($('#sexo').val(), $('#status').val(), $('#cargo').val(), $('#Cidade').val(), $('#pesquisa').val());
-          }
-      });
+        listar(sexo, status, cargo, cidade);
+
+
+      }
       
    </script>
 

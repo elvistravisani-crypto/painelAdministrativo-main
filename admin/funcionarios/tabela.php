@@ -3,10 +3,36 @@
 // O dir e para meio que retornar onde o arquivo esta dentro, require once ele tenta a conexão apenas uma vez
   require_once __DIR__ . "/../../conexao/conecta.php";
 
+  /* FILTROS */
+  $sexo = $_POST['sexo'];
+  $status = $_POST['status'];
+  $cargo = $_POST['cargo'];
+  $cidade = $_POST['cidade'];
+
 // CODIGO SQL
 $sql = "SELECT funcionario.codigo_funcionario, funcionario.foto,funcionario.nome, funcionario.nome_social, cargo.nome 'cargo', funcionario.data_cadastro, funcionario.status
 FROM funcionario 
-INNER JOIN cargo ON cargo.codigo_cargo = funcionario.codigo_cargo ";
+INNER JOIN cargo ON cargo.codigo_cargo = funcionario.codigo_cargo WHERE 1=1";
+/* FILTRO PO SEXO */
+if(!empty($sexo))
+  {
+    $sql .= " AND funcionario.sexo = '$sexo' ";
+  }
+  /* FILTRO POR STATUS */
+  if($status != '')
+    {
+      $sql .= " AND funcionario.status = $status";
+    }
+    /* FILTRO POR CARGO */
+    if($cargo !='')
+      {
+        $sql .= " AND funcionario.codigo_cargo = $cargo";
+      }
+      /* FILTRO POR CIDADE */
+      if(!empty($cidade))
+        {
+          $sql .= "AND funcionario.cidade = '$cidade'";
+        }
 
 // A FUNÇÃO DO MYSQL_QUERY REALIZA A CONEXÃO COM O BANCO DE DADOS E EXECUTA O COMANDO SQL
 $query = mysqli_query($conexao, $sql);
