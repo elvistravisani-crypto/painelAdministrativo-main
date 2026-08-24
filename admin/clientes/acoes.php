@@ -44,6 +44,7 @@ if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cliente") {
             header('Location: inserir.php');
             exit; */
         }
+        
     } 
     
     catch (mysqli_sql_exception) 
