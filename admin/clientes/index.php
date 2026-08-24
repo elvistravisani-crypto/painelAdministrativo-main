@@ -80,7 +80,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
         <div class="card">
           <div class="card-header d-flex justify-content-between">
-            <h4 class="m-0">clientes</h4>
+            <h4 class="m-0">Clientes</h4>
 
             <a href="inserir.php" class="btn btn-primary btn-sm">
               <i class="bi bi-plus"></i>
@@ -91,10 +91,8 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
           <?php
 
-          $sql = "SELECT cliente.foto, cliente.codigo_cliente, cliente.nome, cliente.nome_social, cargo.nome as 'cargo_cliente', cliente.status, cliente.salario, cliente.data_nascimento 
-           FROM cliente
-           INNER JOIN cargo
-           ON cliente.codigo_cargo = cargo.codigo_cargo;";
+          $sql = "SELECT cliente.codigo_cliente, cliente.nome,  cliente.data_nascimento 
+           FROM cliente";
 
           $query = mysqli_query($conexao, $sql);
 
@@ -203,8 +201,11 @@ require_once __DIR__ . "/../../conexao/conecta.php";
             </div>
           <?php
           } else {
-            echo '<div class="alert alert-warning m-3" role="alert">Nenhum registro encontrado!</div>';
-          }
+              echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+                    Nenhum registro encontrado
+                  </div>
+                </div>';
+                  }
           ?>
 
 

@@ -9,10 +9,12 @@ require_once __DIR__ . "/../../conexao/conecta.php";
     {
       session_start();
     }
+    
 
 
 # CADASTRANDO UM NOVO FUNCIONÁRIO #
-if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_funcionario") {
+if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_funcionario") 
+    {
     $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
     $nome_social = mysqli_real_escape_string($conexao, $_POST['nome_social']);
     /* $foto_funcionario = mysqli_real_escape_string($conexao, $_POST['']); */

@@ -163,10 +163,11 @@ require_once __DIR__ . "/../../conexao/conecta.php";
             </div>
           <?php
           } else {
-            echo '<div class="alert alert-warning" role="alert">
-                   Nenhuma categoria encontrada!
-                 </div>';
-          }
+              echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+                    Nenhum registro encontrado
+                  </div>
+                </div>';
+                  }
           ?>
 
 

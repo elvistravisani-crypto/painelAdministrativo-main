@@ -9,7 +9,7 @@ require_once __DIR__. "/../../conexao/conecta.php";
       session_start();
     }
 
-#CADASTRANDO UMA NOVA#
+#CADASTRANDO UMA NOVA MARCA#
 
     
 if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_marca")
