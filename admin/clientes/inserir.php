@@ -67,7 +67,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h4 class="m-0">Novo Funcionário</h4>
+                        <h4 class="m-0">Novo Cliente</h4>
 
                         <a href="Index.php" class="btn btn-primary btn-sm">
                             <i class="bi bi-arrow-left-short"></i>
@@ -77,19 +77,19 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                     </div>
 
                     <div class="card-body">
-                        <form action="acoes.php" method="post" enctype="multipart/form-data">
+                        <form action="acoes.php" method="post">
                             <div class="row">
                                 <!-- Nome -->
                                 <div class="col-6 mb-3">
                                     <label for="nome"><strong class="text-danger">*</strong>Nome: </label>
-                                    <input type="text" name="nome" id="nome" class="form-control" maxlength="40"
+                                    <input type="text" name="nome" id="nome" class="form-control" maxlength="50"
                                         required>
                                 </div>
                                 <!-- Nome Social -->
                                 <div class="col-6 mb-3">
                                     <label for="nome_social">Nome Social: </label>
                                     <input type="text" name="nome_social" id="nome_social" class="form-control"
-                                        maxlength="40">
+                                        maxlength="60">
                                 </div>
 
                                 <!-- Cpf -->
@@ -140,17 +140,6 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     <label for="senha"><strong class="text-danger">*</strong>Senha: </label>
                                     <input type="password" name="senha" id="senha" class="form-control" maxlength="8"
                                         required>
-                                </div>
-
-                                
-
-                                <!-- Status -->
-                                <div class="col-2 mb-3">
-                                    <label for="status"><strong class="text-danger">*</strong>Status: </label>
-                                    <select name="status" id="status" class="form-control" required>
-                                        <option value="1">Ativo</option>
-                                        <option value="0">Inativo</option>
-                                    </select>
                                 </div>
 
                                 
@@ -230,7 +219,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 </div>
 
                         
-                                <input type="hidden" name="cadastrar" value="cadastrar_funcionario">
+                                <input type="hidden" name="cadastrar" value="cadastrar_cliente">
 
                                 <input type="submit" value="Cadastrar" class="btn btn-primary mt-3 px-5">
                             </div>

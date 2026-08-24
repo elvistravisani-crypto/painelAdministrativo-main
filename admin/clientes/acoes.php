@@ -30,7 +30,7 @@ if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cliente") {
     $cep = mysqli_real_escape_string($conexao, $_POST['cep']);
 
     // INSERT 
-    $sql = "INSERT INTO cliente VALUES (0, '$nome', '$nome_social' , '$cpf', '$data_nascimento', '$telefone_celular', '$email', '$endereco', '$numero', '$complemento', '$bairro', '$cidade', '$estado', '$cep', '$senha', '$sexo', NOW(), 1)";
+    $sql = "INSERT INTO cliente VALUES (0, '$nome', '$nome_social' , '$cpf', '$data_nascimento', '$telefone_celular', '$email', '$endereco', $numero, '$complemento', '$bairro', '$cidade', '$estado', '$cep', '$senha', '$sexo', NOW(), 1)";
 
      try {
         if (mysqli_query($conexao, $sql)) 

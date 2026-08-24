@@ -44,7 +44,7 @@ $query = mysqli_query($conexao, $sql);
 if (mysqli_num_rows($query) > 0) {
 
 
-?>
+  ?>
 
 
   <!-- PARA ATUALIZAR APENAS UMA PARTE DO SITE QUE NO CASO SERIA A TABELA CRIA UM NIOVO ARQUIVO E COLA A TABLE INTEIRA AQUI -->
@@ -74,7 +74,7 @@ if (mysqli_num_rows($query) > 0) {
       foreach ($query as $funcionario) {
 
 
-      ?>
+        ?>
 
         <!-- LINHA DA TABELA -->
         <tr class="text-center  ">
@@ -100,9 +100,8 @@ if (mysqli_num_rows($query) > 0) {
             if ($funcionario['nome_social'] != '') {
               echo $funcionario['nome_social'];
             } else {
-              echo $funcionario['nome'];
+              echo '-';
             }
-
             ?>
           </td>
 
@@ -110,12 +109,12 @@ if (mysqli_num_rows($query) > 0) {
           <td><?php echo $funcionario['cargo'] ?></td>
           <td><?php echo date('d/m/Y', strtotime($funcionario['data_cadastro'])) ?></td>
           <td><?php
-              if ($funcionario['status'] == 1) {
-                echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
-              } else {
-                echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
-              }
-              ?>
+          if ($funcionario['status'] == 1) {
+            echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
+          } else {
+            echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
+          }
+          ?>
           </td>
           <td>
 
@@ -126,7 +125,7 @@ if (mysqli_num_rows($query) > 0) {
           </td>
         </tr>
 
-      <?php
+        <?php
       }
       ?>
 
@@ -135,12 +134,11 @@ if (mysqli_num_rows($query) > 0) {
   </table>
 
 
-<?php
+  <?php
 } else {
   echo '<div class="alert alert-warning d-flex align-items-center justify-content-center" role="alert">
           Nenhum registro encontrado
-        </div>
-      </div>';
+        </div>';
 }
 
 ?>

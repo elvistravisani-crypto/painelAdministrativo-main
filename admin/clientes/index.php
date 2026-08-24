@@ -43,28 +43,6 @@ require_once __DIR__ . "/../../conexao/conecta.php";
   #Final TOPO
   ?>
 
-  <?php
-  /**
-   * Busca a foto do funcionário na pasta assets/img/clientes
-   * pelo ID. Aceita jpg, jpeg, png e webp.
-   * Se não encontrar, usa a imagem placeholder padrão.
-   */
-  function fotocliente($id)
-  {
-    $pastaRelativa = '../../assets/img/clientes/';
-    $pastaAbsoluta = __DIR__ . '/../../assets/img/clientes/';
-    $extensoes = ['jpg', 'jpeg', 'png', 'webp'];
-
-    foreach ($extensoes as $ext) {
-      if (file_exists($pastaAbsoluta . $id . '.' . $ext)) {
-        return $pastaRelativa . $id . '.' . $ext;
-      }
-    }
-
-    return '../../assets/img/placeholder-cliente.png';
-  }
-  ?>
-
   <div class="container-fluid">
     <div class="row">
       <?php
@@ -91,8 +69,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
           <?php
 
-          $sql = "SELECT cliente.codigo_cliente, cliente.nome,  cliente.data_nascimento 
-           FROM cliente";
+          $sql = "SELECT codigo_cliente, nome, email, telefone, status, data_nascimento FROM cliente";
 
           $query = mysqli_query($conexao, $sql);
 
@@ -113,10 +90,10 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                   </form>
                 </div>
 
-                <!-- CAMPO DE BUSCA POR NOME DO CARGO -->
+                <!-- CAMPO DE BUSCA POR NOME -->
                 <div class="col-4">
                   <form action="">
-                    <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por cargo...">
+                    <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por nome...">
                   </form>
                 </div>
               </div>
@@ -130,12 +107,11 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                   <!-- Table Row: Linha da Tabela -->
                   <tr>
                     <!-- Table Head: Título da Coluna -->
-                    <th>Foto</th>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th>Cargo</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
                     <th>Status</th>
-                    <th>Salario</th>
                     <th>Data nascimento</th>
                     <th>Ações</th>
                   </tr>
@@ -148,23 +124,13 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                     <!-- Linha da Tabela -->
                     <tr>
                       <!-- Table Data: Dados da Tabela -->
-                      <td>
-                        <div class="foto-table">
-                          <?php
-                          if ($cliente['foto'] != '') {
-                            echo '<img src="../../imagens/' . $cliente['foto'] . '" alt="' . $cliente['nome'] . '" class="rounded-circle obj-cover" style="width: 100px; height: 100px;">';
-                          } else {
-                            echo '<img src="../../assets/img/placeholder-cliente.png" alt="' . $cliente['nome'] . '" class="rounded-circle obj-cover" style="width: 100px; height: 100px;">';
-                          }
-                          ?>
-                        </div>
-                      </td>
-
                       <td><?php echo $cliente['codigo_cliente'] ?></td>
 
                       <td><?php echo $cliente['nome'] ?></td>
 
-                      <td><?php echo $cliente['cargo_cliente'] ?></td>
+                      <td><?php echo $cliente['email'] ?></td>
+
+                      <td><?php echo $cliente['telefone'] ?></td>
 
                       <!-- Status -->
                       <td>
@@ -177,15 +143,13 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                         ?>
                       </td>
 
-                      <td><?php echo $cliente['salario'] ?></td>
-
                       <!-- data -->
                       <td>
                         <?php echo date('d/m/Y', strtotime($cliente['data_nascimento'])) ?>
                       </td>
 
                       <td>
-                        <a href="Etidar.php" class="btn btn-outline-success btn-sm" title="Editar">
+                        <a href="Editar.php" class="btn btn-outline-success btn-sm" title="Editar">
                           <i class="bi bi-pencil"></i>
                         </a>
 
@@ -203,12 +167,9 @@ require_once __DIR__ . "/../../conexao/conecta.php";
           } else {
               echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
                     Nenhum registro encontrado
-                  </div>
-                </div>';
-                  }
+                  </div>';
+          }
           ?>
-
-
 
         </div>
       </main>
