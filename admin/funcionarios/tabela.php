@@ -118,7 +118,7 @@ if (mysqli_num_rows($query) > 0) {
           </td>
           <td>
 
-            <a href="editar.php" class="btn btn-outline-success btn-sm" title="Editar"><i class="bi bi-pencil"></i></a>
+            <a href="editar.php?codigo_funcionario=<?php echo $funcionario['codigo_funcionario']?>" class="btn btn-outline-success btn-sm" title="Editar"><i class="bi bi-pencil"></i></a>
 
             <a href="excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir"><i class="bi bi-trash"></i></a>
 

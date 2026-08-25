@@ -2,6 +2,12 @@
 /* CONEXÃO COM O BANCO DE DADOS */
 require_once __DIR__ . "/../../conexao/conecta.php";
 
+# INICIANDO A SESSÃO #
+  if (!isset($_SESSION))
+    {
+      session_start();
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -48,7 +54,11 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
       <main class="ms-auto col-lg-10 px-md-4">
         <?php
+        //Boas-vindas mostrando o usuário que esta logado
         include('../Log.php');
+
+        // Mensagem de erro ou sucesso
+        include('../Mensagem.php');
         ?>
 
         <div class="card">
@@ -178,7 +188,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                       </td>
 
                       <td>
-                        <a href="Editar.php" class="btn btn-outline-success btn-sm" title="Editar">
+                        <a href="Editar.php?codigo_cargo=<?php echo $cargo['codigo_cargo'] ?>" class="btn btn-outline-success btn-sm" title="Editar">
                           <i class="bi bi-pencil"></i>
                         </a>
 

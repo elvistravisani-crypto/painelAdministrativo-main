@@ -2,6 +2,11 @@
 
   // conexao com o banco
   require_once __DIR__ . "../../../conexao/conecta.php";
+  # INICIANDO A SESSÃO #
+  if (!isset($_SESSION))
+    {
+      session_start();
+    }
 
 ?>
 
@@ -57,7 +62,11 @@
 
       <main class="ms-auto col-lg-10 px-md-4">
         <?php
+        //Boas-vindas mostrando o usuário que esta logado
         include('../Log.php');
+
+        // Mensagem de erro ou sucesso
+        include('../Mensagem.php');
         ?>
 
         <div class="card">

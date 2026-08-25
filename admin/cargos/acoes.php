@@ -9,7 +9,7 @@ require_once __DIR__. "/../../conexao/conecta.php";
       session_start();
     }
 
-#CADASTRANDO UM NOVO CARGO#
+#ATUALIZANDO UM  CARGO#
   
 if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cargo")
     {
@@ -38,5 +38,42 @@ if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cargo")
         }
         header('Location: inserir.php');
     }
+    #CADASTRANDO UM NOVO CARGO#
+  
+if(isset($_POST['editar']) && $_POST['editar'] == "editar_cargo")
+    {
+        $codigo = mysqli_real_escape_string($conexao, $_POST['codigo_cargo']);
+
+        $cargo = mysqli_real_escape_string($conexao, $_POST['cargo']);
+        $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
+        $status = mysqli_real_escape_string($conexao, $_POST['status']);
+
+
+        //UPDATE
+
+        $sql = "UPDATE cargo SET nome = '$cargo', observacao = '$observacao', status = $status WHERE codigo_cargo = $codigo";
+
+        try
+        {
+                    if(mysqli_query($conexao, $sql))
+            {
+                //header('Location: index.php');
+                $_SESSION['mensagem'] = "Cargo atualizado com sucesso!";
+            }
+            else
+                {
+                    //die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
+                   $_SESSION['mensagem'] = "Erro ao atualizar!";
+                }
+
+        }
+        catch (mysqli_sql_exception)
+        {
+            $_SESSION['mensagem'] = "Erro ao cadastrar!";
+        }
+        header('Location: Index.php');
+    }
 
 ?>
+
+

@@ -13,7 +13,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
 
 # CADASTRANDO UM NOVO FUNCIONÁRIO #
-if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_funcionario") 
+if (isset($_POST['editar']) && $_POST['editar'] == "editar_funcionario") 
     {
     $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
     $nome_social = mysqli_real_escape_string($conexao, $_POST['nome_social']);
@@ -37,7 +37,7 @@ if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_funcionario"
     $usuario = mysqli_real_escape_string($conexao, $_POST['usuario']);
     $senha = mysqli_real_escape_string($conexao, $_POST['senha']);
     $tipo_acesso = mysqli_real_escape_string($conexao, $_POST['tipo_acesso']);
-    /* $status = mysqli_real_escape_string($conexao, $_POST['status']); */
+     $status = mysqli_real_escape_string($conexao, $_POST['status']); 
     $codigo_cargo = mysqli_real_escape_string($conexao, $_POST['codigo_cargo']);
     /* $data_cadastro = mysqli_real_escape_string($conexao, $_POST['data_cadastro']); */
 
@@ -56,8 +56,17 @@ if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_funcionario"
     /* movendo a imagem da pasta TMP para a pasta IMAGES */
     move_uploaded_file($tmp, $final);
 
-    // INSERT
-    $sql = "INSERT INTO funcionario VALUES (0, $codigo_cargo, '$nome', '$nome_social', '$foto', '$data_nascimento', '$sexo', '$estado_civil', '$cpf', '$rg', '$salario', '$endereco', '$numero', '$complemento', '$bairro', '$cidade', '$estado', '$cep', '$telefone_residencial', '$telefone_celular', '$email', '$usuario', '$senha', $tipo_acesso, 1, NOW())";
+    // UPDATE
+    $sql = "UPDATE funcionario SET nome = '$nome', nome_social = '$nome_social', data_nascimento = '$data_nascimento', sexo = '$sexo', estado_civil = '$estado_civil', cpf = '$cpf', rg = 'rg', salario = '$salario', endereco = '$endereco', numero = '$numero',  complemento = '$complemento', bairro = '$bairro', cidade = '$cidade', estado = '$estado', cep = '$cep', telefone_residencial = '$telefone_residencial', telefone_celular = '$telefone_celular', email = '$email', usuario = '$usuario', senha = '$senha', tipo_acesso = '$tipo_acesso', status = '$status', codigo_cargo = '$cargo';
+
+    /* VIRIFICAR SE O COMPO DE FOTO ESTÁ VAZIO OU NÃO PARA SUBSTITUIR FOTO EXISTENTE */
+    if (!empty($foto))
+    {
+     $sql .= ", foto = '$foto'";
+    }
+    /* completando o update com clausula where */
+    $sql .= "WHERE codigo_funcionario = $codigo";
+    
 
 
 
