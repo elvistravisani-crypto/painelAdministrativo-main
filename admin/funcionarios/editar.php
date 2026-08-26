@@ -173,6 +173,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     <input type="text" name="telefone_celular" id="telefone_celular"
                                         class="form-control" maxlength="14" data-mask="(00)00000-0000" value="<?php echo $funcionario['telefone_celular'] ?>">
                                 </div>
+                                
                                 <!-- Salário -->
                                 <div class="col-2 mb-3">
                                     <label for="salario">Salário: </label>

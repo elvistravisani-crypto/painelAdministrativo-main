@@ -64,7 +64,7 @@ if (isset($_POST['editar']) && $_POST['editar'] == "editar_funcionario")
     {
      $sql .= ", foto = '$foto'";
     }
-    /* completando o update com clausula where */
+    
     $sql .= "WHERE codigo_funcionario = $codigo";
     
 
@@ -78,9 +78,9 @@ if (isset($_POST['editar']) && $_POST['editar'] == "editar_funcionario")
             exit;
                     
         } else {die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
-           /*  $_SESSION['mensagem'] = "Erro ao cadastrar!";
+             $_SESSION['mensagem'] = "Erro ao cadastrar!";
             header('Location: inserir.php');
-            exit; */
+            exit; 
         }
     } 
     

@@ -213,10 +213,8 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                         }
 
                                         ?>
-
-
-
-
+ 
+ 
                                     </select>
                                 </div>
 
