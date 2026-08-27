@@ -82,7 +82,7 @@
 
           </div>
 
-          <!-- COLA O PHP DO SELECT AQUI -->
+          <!-- CÓDIGO DO SELECT -->
 
             <?php 
                 // CODIGO SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php
@@ -100,7 +100,7 @@
           <div class="card-body">
 
             <div class="row pb-2">
-              <!-- FILTRO POR STATUS -->
+              <!-- FILTRO POR SEXO -->
               <div class="col-2">
                 <form action="">
 
@@ -109,7 +109,7 @@
                     <option value="">Sexo </option>
                     <option value="M">Masculino </option>
                     <option value="F">Feminino </option>
-                    <option value="Não">Não informado</option>
+                    <option value="N">Não informado</option>
 
                   </select>
 
@@ -120,6 +120,7 @@
                <div class="col-2">
                 <form action="">
 
+              <!-- FILTRO POR STATUS -->
                   <select name="status" id="status" class="form-control"onchange="buscar()">
 
                     <option value="">Status </option>

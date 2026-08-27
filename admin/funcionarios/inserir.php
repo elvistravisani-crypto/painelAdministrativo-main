@@ -111,11 +111,12 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                         required>
                                 </div>
                                 <!-- Sexo -->
-                                <div class="col-1 mb-3">
+                                <div class="col-2 mb-3">
                                     <label for="sexo"><strong class="text-danger">*</strong>Sexo: </label>
                                     <select name="sexo" id="sexo" class="form-control" required>
-                                        <option value="M">M</option>
-                                        <option value="F">F</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                        <option value="F">Não informado</option>
                                     </select>
                                 </div>
                                 <!-- Estado civil -->

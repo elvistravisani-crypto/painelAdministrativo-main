@@ -48,7 +48,10 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
       <main class="ms-auto col-lg-10 px-md-4">
         <?php
+        /* Boas vindas mostrando o usuário que esta logado */
         include('../Log.php');
+        /* Mensagem de erro ou sucesso */
+        include('../Mensagem.php')
         ?>
 
         <div class="card">
@@ -62,6 +65,8 @@ require_once __DIR__ . "/../../conexao/conecta.php";
             </a>
           </div>
 
+          <!-- CODIGO COM ID -->
+
           <?php
 
           $sql = "SELECT * FROM marca";
@@ -69,9 +74,6 @@ require_once __DIR__ . "/../../conexao/conecta.php";
           $query = mysqli_query($conexao, $sql);
 
           if (mysqli_num_rows($query) > 0) {
-
-
-
 
           ?>
 
@@ -88,7 +90,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                   </form>
                 </div>
 
-                <!-- CAMPO DE BUSCA POR NOME DO marca -->
+                <!-- CAMPO DE BUSCA POR NOME DO MARCA -->
                 <div class="col-4">
                   <form action="">
                     <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por marca...">
@@ -98,76 +100,16 @@ require_once __DIR__ . "/../../conexao/conecta.php";
             </div>
 
             <div class="card-body">
-              <!-- Tabela -->
-              <table class="table">
-                <!-- Cabeçalho da Tabela -->
-                <thead class="table-dark">
-                  <!-- Table Row: Linha da Tabela -->
-                  <tr>
-                    <!-- Table Head: Título da Coluna -->
-                    <th>ID</th>
-                    <th>marca</th>
-                    <th>Status</th>
-                    <th>Data Cadastro</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-
-
-                <!-- CONTEÚDO VISUAL NO DA PÁGINA INICIAL DE marcaS  -->
-
-                <!-- Corpo da Tabela -->
-                <tbody>
-                  <?php foreach ($query as $marca) { ?>
-
-                    <!-- Linha da Tabela -->
-                    <tr>
-                      <!-- Table Data: Dados da Tabela -->
-                      <td><?php echo $marca['codigo_marca'] ?></td>
-
-                      <td>
-                        <?php
-                         echo $marca['nome'] 
-                         ?>
-                         </td>
-                 
-                      <!-- marca -->
-                      <td>
-                        <?php
-                        if ($marca['status'] == 1) {
-                          echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
-                        } else {
-                          echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
-                        }
-                        ?>
-                      </td>
-                     <!-- data -->
-                      <td>
-                        <?php echo date('d/m/Y', strtotime($marca['data_cadastro'])) ?>
-                      </td>
-
-                      <td>
-                        <a href="Editar.php" class="btn btn-outline-success btn-sm" title="Editar">
-                          <i class="bi bi-pencil"></i>
-                        </a>
-
-                        <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir">
-                          <i class="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-
-                  <?php } ?>
-                </tbody>
-              </table>
+              <div id="tabela"></div>
             </div>
+
           <?php
           } else {
-              echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+            echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
                     Nenhum registro encontrado
                   </div>
                 </div>';
-                  }
+          }
           ?>
 
 
@@ -176,9 +118,9 @@ require_once __DIR__ . "/../../conexao/conecta.php";
       </main>
     </div>
   </div>
-  
- <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
-  <?php mysqli_close($conexao)?>
+
+  <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
+  <?php mysqli_close($conexao) ?>
   <!-- JQUERY CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->

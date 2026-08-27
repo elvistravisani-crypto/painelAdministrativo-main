@@ -72,7 +72,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
             </a>
           </div>
 
-          <!-- CODIGO SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php -->
+          <!-- CODIGOd SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php -->
           <?php
 
           $sql_cargo = "SELECT codigo_cargo FROM cargo";
