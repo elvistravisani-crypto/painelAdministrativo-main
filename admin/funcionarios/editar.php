@@ -71,7 +71,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
                     $codigo = $_GET['codigo_funcionario'];
 
-                    $sql = "SELECT * FROM funcionario WHERE codigo_funcionario $codigo";
+                    $sql = "SELECT * FROM funcionario WHERE codigo_funcionario = $codigo";
                     $query = mysqli_query($conexao, $sql);
                     $funcionario = mysqli_fetch_assoc($query);
 
@@ -80,7 +80,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h4 class="m-0">Novo Funcionário</h4>
+                        <h4 class="m-0">Editar Funcionário</h4>
 
                         <a href="Index.php" class="btn btn-primary btn-sm">
                             <i class="bi bi-arrow-left-short"></i>
@@ -108,14 +108,11 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 <div class="col-md-2 mb-3 text-center">
                                     <!-- espaço para a foto -->
                                     <div class="foto_fun border rounded bg-light d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 100px; height: 100px;">
-                                        <i class="bi bi-person-fill text-secondary fs-1"></i>
-                                        <?php 
-                                        if ($funcionario['foto'] != '')
-                                            {
-                                                echo '<img src="../../imagens/' . $funcionario['foto'];
-                                            }
-                                        
-                                        ?>
+                                        <?php if ($funcionario['foto'] != '') { ?>
+                                            <img src="../../imagens/<?php echo $funcionario['foto'] ?>" class="img-fluid rounded" style="width: 100px; height: 100px; object-fit: cover;">
+                                        <?php } else { ?>
+                                            <i class="bi bi-person-fill text-secondary fs-1"></i>
+                                        <?php } ?>
                                     </div>
 
                                     <!--  -->
@@ -133,38 +130,38 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 <div class="col-1 mb-3">
                                     <label for="sexo"><strong class="text-danger">*</strong>Sexo: </label>
                                     <select name="sexo" id="sexo" class="form-control" required>
-                                        <option value="M" <?php if ($funcionario['sexo'] == 'M')?>>Masculino</option>
-                                        <option value="F" <?php if ($funcionario['sexo'] == 'F')?>>Feminino</option>
-                                        <option value="N" <?php if ($funcionario['sexo'] == 'N')?>>Não informado</option>
+                                        <option value="M" <?php if ($funcionario['sexo'] == 'M') echo 'selected' ?>>Masculino</option>
+                                        <option value="F" <?php if ($funcionario['sexo'] == 'F') echo 'selected' ?>>Feminino</option>
+                                        <option value="N" <?php if ($funcionario['sexo'] == 'N') echo 'selected' ?>>Não informado</option>
                                     </select>
                                 </div>
                                 <!-- Estado civil -->
                                 <div class="col-2 mb-3">
                                     <label for="estado_civil">Estado civil: </label>
                                     <select name="estado_civil" id="estado_civil" class="form-control">
-                                        <option value="Casado(a)" <?php if ($funcionario['estado_civil'] == 'Casado(a)') ?>>Casado(a)</option>
-                                        <option value="Solteiro(a)" <?php if ($funcionario['estado_civil'] == 'Solteiro(a)') ?>>Solteiro(a)</option>
-                                        <option value="Divorciado(a)" <?php if ($funcionario['estado_civil'] == 'Divorciado(a)') ?>>Divorciado(a)</option>
-                                        <option value="Viuvo(a)" <?php if ($funcionario['estado_civil'] == 'Viuvo(a)') ?>>Viuvo(a)</option>
-                                        <option value="Separado(a)" <?php if ($funcionario['estado_civil'] == 'Separado(a)') ?>>Viuvo(a)</option>
+                                        <option value="Casado(a)" <?php if ($funcionario['estado_civil'] == 'Casado(a)') echo 'selected' ?>>Casado(a)</option>
+                                        <option value="Solteiro(a)" <?php if ($funcionario['estado_civil'] == 'Solteiro(a)') echo 'selected' ?>>Solteiro(a)</option>
+                                        <option value="Divorciado(a)" <?php if ($funcionario['estado_civil'] == 'Divorciado(a)') echo 'selected' ?>>Divorciado(a)</option>
+                                        <option value="Viuvo(a)" <?php if ($funcionario['estado_civil'] == 'Viuvo(a)') echo 'selected' ?>>Viuvo(a)</option>
+                                        <option value="Separado(a)" <?php if ($funcionario['estado_civil'] == 'Separado(a)') echo 'selected' ?>>Separado(a)</option>
                                     </select>
                                 </div>
                                 <!-- Cpf -->
                                 <div class="col-3 mb-3">
                                     <label for="cpf"><strong class="text-danger">*</strong>Cpf</label>
-                                    <input type="text" name="cpf" id="cpf" class="form-control" maxlength="14" data-mask="000.000.000-00" required>
+                                    <input type="text" name="cpf" id="cpf" class="form-control" maxlength="14" data-mask="000.000.000-00" value="<?php echo $funcionario['cpf'] ?>" required>
                                 </div>
 
                                 <!-- Rg -->
                                 <div class="col-3 mb-3">
                                     <label for="rg">Rg</label>
-                                    <input type="text" name="rg" id="rg" class="form-control" maxlength="12" data-mask="00.000.000-A">
+                                    <input type="text" name="rg" id="rg" class="form-control" maxlength="12" data-mask="00.000.000-A" value="<?php echo $funcionario['rg'] ?>">
                                 </div>
                                 <!-- Telefone residencial -->
                                 <div class="col-3 mb-3">
                                     <label for="telefone_residencial">Telefone residencial: </label>
                                     <input type="text" name="telefone_residencial" id="telefone_residencial"
-                                        class="form-control" maxlength="13" (00)00000-000 value="<?php echo $funcionario['telefo_fixo'] ?>">
+                                        class="form-control" maxlength="13" data-mask="(00)0000-0000" value="<?php echo $funcionario['telefone_residencial'] ?>">
                                 </div>
 
                                 <!-- Telefone celular -->
@@ -177,7 +174,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 <!-- Salário -->
                                 <div class="col-2 mb-3">
                                     <label for="salario">Salário: </label>
-                                    <input type="text" name="salario" id="salario" class="form-control" data-mask="00000,00" data-mask-reverse="true">
+                                    <input type="text" name="salario" id="salario" class="form-control" data-mask="00000,00" data-mask-reverse="true" value="<?php echo $funcionario['salario'] ?>">
                                 </div>
 
                                 <!-- Email -->
@@ -206,8 +203,8 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     <label for="tipo_acesso"><strong class="text-danger">*</strong>Tipo de acesso:
                                     </label>
                                     <select name="tipo_acesso" id="tipo_acesso" class="form-control" required>
-                                        <option value="1" <?php if ($funcionario)['tipo_acesso']?>>Administrador</option>
-                                        <option value="0" <?php if ($funcionario)['tipo_acesso']?>>Comum</option>
+                                        <option value="1" <?php if ($funcionario['tipo_acesso'] == '1') echo 'selected' ?>>Administrador</option>
+                                        <option value="0" <?php if ($funcionario['tipo_acesso'] == '0') echo 'selected' ?>>Comum</option>
                                     </select>
                                 </div>
 
@@ -234,7 +231,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                         foreach ($quere_cargo as $cargo) {
                                             ?>
 
-                                            <option value="<?php echo $cargo['codigo_cargo'] ?>" <?php if ($funcionario['codigo_cargo'] == $cargo['codigo_cargo']) echo 'selected'?>><?php  $cargo['nome'] ?> </option>
+                                            <option value="<?php echo $cargo['codigo_cargo'] ?>" <?php if ($funcionario['codigo_cargo'] == $cargo['codigo_cargo']) echo 'selected'?>><?php echo $cargo['nome'] ?> </option>
 
                                             <?php
                                         }
@@ -250,7 +247,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                  <!-- Cep -->
                                 <div class="col-3 mb-3">
                                     <label for="cep"><strong class="text-danger">*</strong>Cep: </label>
-                                    <input type="text" name="cep" id="cep" class="form-control" maxlength="9" data-mask="00000-000" value="<?php echo $funcionario['cep'] ?>"require>
+                                    <input type="text" name="cep" id="cep" class="form-control" maxlength="9" data-mask="00000-000" value="<?php echo $funcionario['cep'] ?>" required>
                                 </div>
 
                                 <!-- Endereço -->
@@ -263,7 +260,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 <!-- Número -->
                                 <div class="col-1 mb-3">
                                     <label for="numero"><strong class="text-danger">*</strong>Número: </label>
-                                    <input type="number" name="numero" id="numero" class="form-control" value="<?php echo $funcionario['numero'] ?>"required>
+                                    <input type="number" name="numero" id="numero" class="form-control" value="<?php echo $funcionario['numero'] ?>" required>
                                 </div>
 
                                 <!-- Complemento -->

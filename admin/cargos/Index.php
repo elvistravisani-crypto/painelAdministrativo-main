@@ -72,16 +72,14 @@ require_once __DIR__ . "/../../conexao/conecta.php";
             </a>
           </div>
 
+          <!-- CODIGO SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php -->
           <?php
 
-          $sql_cargo = "SELECT * FROM cargo";
+          $sql_cargo = "SELECT codigo_cargo FROM cargo";
 
           $query_cargo = mysqli_query($conexao, $sql_cargo);
 
           if (mysqli_num_rows($query_cargo) > 0) {
-
-
-
 
           ?>
 
@@ -90,10 +88,10 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                 <!-- FILTRO POR STATUS -->
                 <div class="col-2">
                   <form action="">
-                    <select name="status" id="status" class="form-control" onchange="submit()">
+                    <select name="status" id="status" class="form-control" onchange="buscar()">
                       <option value="">Status</option>
-                      <option value="1" <?php if (isset($_GET['status']) && $_GET['status'] == '1') echo 'selected'?>>Ativo</option>
-                      <option value="0" <?php if (isset($_GET['status']) && $_GET['status'] == '0') echo 'selected'?>>Inativo</option>
+                      <option value="1">Ativo</option>
+                      <option value="0">Inativo</option>
                     </select>
                   </form>
                 </div>
@@ -106,109 +104,12 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                 </div>
               </div>
             </div>
-                        <?php 
-            if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '')
-              {
 
-                $pesquisa = mysqli_real_escape_string($conexao, $_GET['pesquisa']);
-
-                $sql = "SELECT * FROM cargo WHERE nome LIKE '%$pesquisa%'";
-                
-              }
-              elseif (isset($_GET['status']) && $_GET['status'] != '')
-                {
-                  $status =mysqli_escape_string($conexao, $_GET['status']);
-
-                  $sql = "SELECT * FROM cargo WHERE status = $status";
-                }
-                else
-                  {
-                    $sql = "SELECT * FROM cargo";
-                  }
-
-                  $query = mysqli_query($conexao, $sql);
-
-                  if (mysqli_num_rows($query) >0 )
-               {
-            
-            ?>
-
-            <div class="card-body">
-              <!-- Tabela -->
-              <table class="table">
-                <!-- Cabeçalho da Tabela -->
-                <thead class="table-dark">
-                  <!-- Table Row: Linha da Tabela -->
-                  <tr>
-                    <!-- Table Head: Título da Coluna -->
-                    <th>ID</th>
-                    <th>Cargo</th>
-                    <th>Observação</th>
-                    <th>Status</th>
-                    <th>Data Cadastro</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-
-                <!-- Corpo da Tabela -->
-                <tbody>
-                  <?php foreach ($query as $cargo) { ?>
-
-                    <!-- Linha da Tabela -->
-                    <tr>
-                      <!-- Table Data: Dados da Tabela -->
-                      <td><?php echo $cargo['codigo_cargo'] ?></td>
-
-
-
-
-                      <td>
-                        <?php
-                         echo $cargo['nome'] 
-                         ?>
-                         </td>
-
-                      <td>
-                        <?php echo $cargo['observacao'] 
-                        ?>
-                      </td>
-                      <!-- Cargo -->
-                      <td>
-                        <?php
-                        if ($cargo['status'] == 1) {
-                          echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
-                        } else {
-                          echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
-                        }
-                        ?>
-                      </td>
-                     <!-- data -->
-                      <td>
-                        <?php echo date('d/m/Y', strtotime($cargo['data_cadastro'])) ?>
-                      </td>
-
-                      <td>
-                        <a href="Editar.php?codigo_cargo=<?php echo $cargo['codigo_cargo'] ?>" class="btn btn-outline-success btn-sm" title="Editar">
-                          <i class="bi bi-pencil"></i>
-                        </a>
-
-                        <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir">
-                          <i class="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-
-                  <?php } ?>
-                </tbody>
-              </table>
+            <div class="card-body p-0">
+              <!-- ONDE VAI APARECER A TABELA -->
+              <div id="tabela"></div>
             </div>
-            <?php 
-            } else {
-            echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
-                   Nenhum registro encontrado
-                 </div>';
-          }
-            ?>
+
           <?php
           } else {
             echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
@@ -217,19 +118,61 @@ require_once __DIR__ . "/../../conexao/conecta.php";
           }
           ?>
 
-
-
         </div>
       </main>
     </div>
   </div>
-  
+
  <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
   <?php mysqli_close($conexao)?>
   <!-- JQUERY CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <!-- FILTROS -->
+  <script>
+
+    //FUNÇÃO PARA LISTAR OS CARGOS
+    function listar(status, nome)
+    {
+        // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
+        $.ajax({
+            url: 'tabela.php',
+            method: "POST",
+            data: {
+                status: status,
+                pesquisa: nome
+            },
+            success: function(resultado) {
+                $('#tabela').html(resultado);
+            }
+        });
+
+    }
+    /* EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA */
+    $(document).ready(function(){
+      listar(); /* CARREGAR A TABELA */
+
+      /* FUNÇÃO PARA PESQUISAR PELO NOME */
+      $('#pesquisa').keyup(function(){
+        let pesquisa = $(this).val();
+
+        listar('', pesquisa);
+      })
+
+    })
+
+    /* FUNÇÃO PARA REALIZAR A BUSCA PELOS CARGOS */
+    function buscar()
+    {
+      let status = $('#status').val();
+
+      listar(status);
+    }
+
+  </script>
+
 </body>
 
 </html>
