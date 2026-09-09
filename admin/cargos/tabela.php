@@ -1,6 +1,6 @@
 <?php
 
-// O dir e para meio que retornar onde o arquivo esta dentro, require once ele tenta a conexão apenas uma vez
+// 
 require_once __DIR__ . "/../../conexao/conecta.php";
 
 /* FILTROS */
@@ -83,7 +83,14 @@ if (mysqli_num_rows($query) > 0) {
           <td>
             <a href="Editar.php?codigo_cargo=<?php echo $cargo['codigo_cargo'] ?>" class="btn btn-outline-success btn-sm" title="Editar"><i class="bi bi-pencil"></i></a>
 
-            <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir"><i class="bi bi-trash"></i></a>
+           <!-- <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir">
+                    <i class="bi bi-trash"></i>
+                  </a> -->
+                  <form action="Acoes.php" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Excluir" name="deletar_cargo" value="<?php echo $cargo['codigo_cargo']?>" onclick="return confirm('Tem certaza que deseja excluir?')">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
           </td>
         </tr>
 

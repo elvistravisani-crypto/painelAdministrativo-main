@@ -1,3 +1,18 @@
+<?php 
+
+ // RETORNA O CAMINHO DA URL APÓS O NOME DO HOST
+ echo $url_parcial = $_SERVER['REQUEST_URI'];
+
+ // 0 => ""
+ //1 => info_53
+ //2 => painelAdministrativo-main
+ //3 => admin
+ $caminho = explode("/",$url_parcial); // COMANDO PARA FAZER A SEPARAÇÃO, NESTE CASO USANDO A BARRA
+
+ $url = "http://" . $_SERVER['HTTP_HOST'] . "/" . $caminho[1] . "/" . $caminho[2] . "/" . $caminho[3];
+
+
+?>
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
   <div class="position-sticky pt-3">
     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -13,42 +28,42 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/cargos/">
+        <a class="nav-link" href="<?php echo $url ?>/cargos/">
           <i class="bi bi-person-fill-gear"></i>
           Cargos
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/funcionarios">
+        <a class="nav-link" href="<?php echo $url ?>/funcionarios/">
           <i class="bi bi-person-vcard-fill"></i>
           Funcionários
         </a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/categorias">
+        <a class="nav-link" href="<?php echo $url ?>/categorias/">
           <i class="bi bi-stack"></i>
           Categorias
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/marcas">
+        <a class="nav-link" href="<?php echo $url ?>/marcas/">
           <i class="bi bi-bag-fill"></i>
           Marcas
         </a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="<?php echo $url ?>/produtos/">
           <i class="bi bi-archive-fill"></i>
           Produtos
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost/info_53/painelAdministrativo-main/admin/clientes">
+        <a class="nav-link" href="<?php echo $url ?>/clientes/">
           <i class="bi bi-people-fill"></i>
           Clientes
         </a>

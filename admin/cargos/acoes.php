@@ -1,79 +1,73 @@
-<?php 
+<?php
 
 # CONEXÃO COM O BANCO DE DADOS #
-require_once __DIR__. "/../../conexao/conecta.php";
+require_once __DIR__ . "/../../conexao/conecta.php";
 
-  # INICIANDO A SESSÃO #
-  if (!isset($_SESSION))
-    {
-      session_start();
-    }
+# INICIANDO A SESSÃO #
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 #ATUALIZANDO UM  CARGO#
-  
-if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cargo")
-    {
-        $cargo = mysqli_real_escape_string($conexao, $_POST['cargo']);
-        $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
 
-        $sql = "INSERT INTO cargo VALUES (0,'$cargo', '$observacao', 1, NOW())";
+if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cargo") {
+    $cargo = mysqli_real_escape_string($conexao, $_POST['cargo']);
+    $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
 
-        try
-        {
-                    if(mysqli_query($conexao, $sql))
-            {
-                //header('Location: index.php');
-                $_SESSION['mensagem'] = "Cargo cadastrado com sucesso!";
-            }
-            else
-                {
-                   // die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
-                   $_SESSION['mensagem'] = "Erro ao cadastrar!";
-                }
+    $sql = "INSERT INTO cargo VALUES (0,'$cargo', '$observacao', 1, NOW())";
 
-        }
-        catch (mysqli_sql_exception)
-        {
+    try {
+        if (mysqli_query($conexao, $sql)) {
+            //header('Location: index.php');
+            $_SESSION['mensagem'] = "Cargo cadastrado com sucesso!";
+        } else {
+            // die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
             $_SESSION['mensagem'] = "Erro ao cadastrar!";
         }
-        header('Location: inserir.php');
+    } catch (mysqli_sql_exception) {
+        $_SESSION['mensagem'] = "Erro ao cadastrar!";
     }
-    #CADASTRANDO UM NOVO CARGO#
-  
-if(isset($_POST['editar']) && $_POST['editar'] == "editar_cargo")
-    {
-        $codigo = mysqli_real_escape_string($conexao, $_POST['codigo_cargo']);
+    header('Location: inserir.php');
+}
+#CADASTRANDO UM NOVO CARGO#
 
-        $cargo = mysqli_real_escape_string($conexao, $_POST['cargo']);
-        $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
-        $status = mysqli_real_escape_string($conexao, $_POST['status']);
+if (isset($_POST['editar']) && $_POST['editar'] == "editar_cargo") {
+    $codigo = mysqli_real_escape_string($conexao, $_POST['codigo_cargo']);
+
+    $cargo = mysqli_real_escape_string($conexao, $_POST['cargo']);
+    $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
+    $status = mysqli_real_escape_string($conexao, $_POST['status']);
 
 
-        //UPDATE
+    //UPDATE
 
-        $sql = "UPDATE cargo SET nome = '$cargo', observacao = '$observacao', status = $status WHERE codigo_cargo = $codigo";
+    $sql = "UPDATE cargo SET nome = '$cargo', observacao = '$observacao', status = $status WHERE codigo_cargo = $codigo";
 
-        try
-        {
-                    if(mysqli_query($conexao, $sql))
-            {
-                //header('Location: index.php');
-                $_SESSION['mensagem'] = "Cargo atualizado com sucesso!";
-            }
-            else
-                {
-                    //die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
-                   $_SESSION['mensagem'] = "Erro ao atualizar!";
-                }
-
+    try {
+        if (mysqli_query($conexao, $sql)) {
+            //header('Location: index.php');
+            $_SESSION['mensagem'] = "Cargo atualizado com sucesso!";
+        } else {
+            //die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
+            $_SESSION['mensagem'] = "Erro ao atualizar!";
         }
-        catch (mysqli_sql_exception)
-        {
-            $_SESSION['mensagem'] = "Erro ao cadastrar!";
-        }
-        header('Location: Index.php');
+    } catch (mysqli_sql_exception) {
+        $_SESSION['mensagem'] = "Erro ao cadastrar!";
     }
+    header('Location: Index.php');
+}
+//EXCLUINDO CARGO 
+if (isset($_POST['deletar_cargo'])) {
+    $codigo = $_POST['deletar_cargo'];
 
-?>
+    $sql = "DELETE FROM cargo WHERE codigo_cargo = $codigo";
 
 
+    if (mysqli_query($conexao, $sql)) {
+        $_SESSION['mensagem'] = "Cargo excluido com sucesso!";
+        header("Location: Index.php");
+    } else {
+        $_SESSION['mensagem'] = "Erro ao excluir!";
+        header("Location: Index.php");
+    }
+}

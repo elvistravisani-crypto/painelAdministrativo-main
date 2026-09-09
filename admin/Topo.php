@@ -1,5 +1,21 @@
+<?php 
+
+ // RETORNA O CAMINHO DA URL APÓS O NOME DO HOST
+ echo $url_parcial = $_SERVER['REQUEST_URI'];
+
+ // 0 => ""
+ //1 => info_53
+ //2 => painelAdministrativo-main
+ //3 => admin
+ $caminho = explode("/",$url_parcial); // COMANDO PARA FAZER A SEPARAÇÃO, NESTE CASO USANDO A BARRA
+
+ $url = "http://" . $_SERVER['HTTP_HOST'] . "/" . $caminho[1] . "/" . $caminho[2] . "/" . $caminho[3];
+
+
+?>
+
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 px-3" href="Admin.php">Hardwares Store</a>
+  <a class="navbar-brand col-md-3 col-lg-2 px-3" href="<?php echo $url ?>/Admin.php">Hardwares Store</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
