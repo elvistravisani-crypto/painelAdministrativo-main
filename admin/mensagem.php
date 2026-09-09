@@ -9,6 +9,7 @@ if (isset($_SESSION['mensagem'])) {
     echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
 
-unset($_SESSION['mensagem']);
+    unset($_SESSION['mensagem']);
 
+    
 }

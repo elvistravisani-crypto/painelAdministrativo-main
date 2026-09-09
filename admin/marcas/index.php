@@ -69,7 +69,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
 
           <?php
 
-          $sql = "SELECT * FROM marca";
+          $sql = "SELECT codigo_marca FROM marca";
 
           $query = mysqli_query($conexao, $sql);
 
@@ -125,6 +125,49 @@ require_once __DIR__ . "/../../conexao/conecta.php";
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+   <!-- FILTROS -->
+  <script>
+
+    //FUNÇÃO PARA LISTAR OS CARGOS
+    function listar(status, nome)
+    {
+        // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
+        $.ajax({
+            url: 'tabela.php',
+            method: "POST",
+            data: {
+                status: status,
+                pesquisa: nome
+            },
+            success: function(resultado) {
+                $('#tabela').html(resultado);
+            }
+        });
+
+    }
+    /* EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA */
+    $(document).ready(function(){
+      listar(); /* CARREGAR A TABELA */
+
+      /* FUNÇÃO PARA PESQUISAR PELO NOME */
+      $('#pesquisa').keyup(function(){
+        let pesquisa = $(this).val();
+
+        listar('', pesquisa);
+      })
+
+    })
+
+    /* FUNÇÃO PARA REALIZAR A BUSCA PELOS CARGOS */
+    function buscar()
+    {
+      let status = $('#status').val();
+
+      listar(status);
+    }
+
+  </script>
 </body>
 
 </html>
