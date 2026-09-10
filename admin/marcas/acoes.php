@@ -40,4 +40,3 @@ if(isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_marca")
         header('Location: inserir.php');
     }
 
-?>

@@ -64,6 +64,7 @@
           </div>
 
           <div class="card-body">
+            
             <form action="acoes.php" method="post">
               <div class="row">
                 <div class="col-6">
@@ -89,6 +90,7 @@
                 </div>
               </div>
             </form>
+
           </div>
         </div>
       </main>
