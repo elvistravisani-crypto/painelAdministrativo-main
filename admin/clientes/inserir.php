@@ -4,10 +4,9 @@
 
 require_once __DIR__ . "/../../conexao/conecta.php";
 # INICIANDO A SESSÃO #
-  if (!isset($_SESSION))
-    {
-      session_start();
-    }
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 
 
@@ -97,8 +96,8 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     <label for="cpf"><strong class="text-danger">*</strong>Cpf</label>
                                     <input type="text" name="cpf" id="cpf" class="form-control" maxlength="14" data-mask="000.000.000-00" required>
                                 </div>
-                                
-                               
+
+
                                 <!-- Data de nascimento -->
                                 <div class="col-3 mb-3">
                                     <label for="data_nascimento"><strong class="text-danger">*</strong>Data de
@@ -111,12 +110,14 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 <div class="col-3 mb-3">
                                     <label for="sexo"><strong class="text-danger">*</strong>Sexo: </label>
                                     <select name="sexo" id="sexo" class="form-control" required>
-                                        <option value="M">M</option>
-                                        <option value="F">F</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                        <option value="N">Não informado</option>
+
                                     </select>
                                 </div>
-                                
-                                
+
+
 
                                 <!-- Telefone celular -->
                                 <div class="col-3 mb-3">
@@ -124,7 +125,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     <input type="text" name="telefone_celular" id="telefone_celular"
                                         class="form-control" maxlength="14" data-mask="(00)00000-0000">
                                 </div>
-                                
+
 
                                 <!-- Email -->
                                 <div class="col-6 mb-3">
@@ -133,7 +134,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                         required>
                                 </div>
 
-                                
+
 
                                 <!-- Senha -->
                                 <div class="col-4 mb-3">
@@ -142,9 +143,9 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                         required>
                                 </div>
 
-                                
 
-                                 <!-- Cep -->
+
+                                <!-- Cep -->
                                 <div class="col-3 mb-3">
                                     <label for="cep"><strong class="text-danger">*</strong>Cep: </label>
                                     <input type="text" name="cep" id="cep" class="form-control" maxlength="9" data-mask="00000-000" require>
@@ -218,7 +219,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     </select>
                                 </div>
 
-                        
+
                                 <input type="hidden" name="cadastrar" value="cadastrar_cliente">
 
                                 <input type="submit" value="Cadastrar" class="btn btn-primary mt-3 px-5">
@@ -241,7 +242,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
         crossorigin="anonymous"></script>
     <!-- JQUERY MASK -->
     <script src="../../custom/js/jquery.mask.min.js"></script>
-     <!-- busca cep -->
+    <!-- busca cep -->
     <script src="../../custom/js/via-cep.js"></script>
 </body>
 

@@ -116,7 +116,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                     <select name="sexo" id="sexo" class="form-control" required>
                                         <option value="M">Masculino</option>
                                         <option value="F">Feminino</option>
-                                        <option value="F">Não informado</option>
+                                        <option value="N">Não informado</option>
                                     </select>
                                 </div>
                                 <!-- Estado civil -->

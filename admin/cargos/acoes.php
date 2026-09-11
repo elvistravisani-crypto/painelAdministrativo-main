@@ -68,7 +68,7 @@ if (isset($_POST['deletar_cargo'])) {
         $_SESSION['mensagem'] = "Cargo excluido com sucesso!";
         header("Location: Index.php");
     } else {
-        $_SESSION['mensagem'] = "Erro ao excluir!";
+        $_SESSION['mensagem'] = "Erro ao excluir! Se algum funcionário estiver vinculado a este cargo, não será possível excluí-lo";
         header("Location: Index.php");
     }
 }
