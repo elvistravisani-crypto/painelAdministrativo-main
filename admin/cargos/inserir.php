@@ -1,9 +1,7 @@
 <?php 
   # INICIANDO A SESSÃO #
-  if(!isset($_SESSION))
-    {
-      session_start();
-    }
+# VERIFICANDO SE EXISTE  USUÁRIO LOGADO PARA PERMITIR ACESSO #
+include_once __DIR__ . "/../usuario_comum.php";
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

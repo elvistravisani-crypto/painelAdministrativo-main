@@ -1,3 +1,23 @@
+<?php   
+# CONEXÃO COM O BANCO DE DADOS #
+require_once __DIR__ . "/../conexao/conecta.php";
+
+# INICIANDO UMA SESSÃO #
+if(!isset($_SESSION))
+    {
+        session_start();
+    }
+/* VERIFICANDO SE EXISTE USUÁRIO LOGADO PARA PERMITIR ACESSO */
+if (!$_SESSION['USER'])
+  {
+    $_SESSION['naoAutorizar'] = "Apenas usuários cadastrados podem acessar esta área!";
+    header('Location: index.php');
+  }
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -45,7 +65,23 @@
         ?>
 
         <div>
-          Você não é um administrador
+          <?php
+
+
+if (isset($_SESSION['mensagem'])) {
+    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+
+    echo $_SESSION['naoAdm'];
+
+    echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+
+    unset($_SESSION['naoAdm']);
+
+    
+}
+?>
+
         </div>
 
       </main>

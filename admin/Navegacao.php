@@ -34,12 +34,15 @@
         </a>
       </li>
 
+<?php if ($_SESSION['TYPE'] == '1') {?>
       <li class="nav-item">
         <a class="nav-link" href="<?php echo $url ?>/funcionarios/">
           <i class="bi bi-person-vcard-fill"></i>
           Funcionários
         </a>
       </li>
+
+<?php }?>
       
       <li class="nav-item">
         <a class="nav-link" href="<?php echo $url ?>/categorias/">

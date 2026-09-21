@@ -22,7 +22,7 @@
 
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="LogOff.php">Sair</a>
+      <a class="nav-link px-3" href="<?php echo $url ?>/LogOff.php">Sair</a>
     </div>
   </div>
 </header>

@@ -1,3 +1,16 @@
+<?php 
+
+/* INICIANDO UMA SESSÃO */
+if(!isset($_SESSION))
+{
+  session_start();
+}
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -30,16 +43,95 @@
     <form action="login.php" method="POST">
       <h2 class="h3 mb-3">Faça seu Login</h2>
 
-      <input type="text" class="form-control mb-2" name="usuario" placeholder="Usuário">
+      <input type="text" class="form-control mb-2" name="usuario" placeholder="Usuário" require>
 
-      <input type="password" class="form-control" name="senha" placeholder="Senha">
+      <input type="password" class="form-control" name="senha" placeholder="Senha" require>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
 
     </form>
 
     <div class="pt-2">
-      STATUS DE MENSAGEM
+      <?php
+
+// Login vazio
+if (isset($_SESSION['loginVazio'])) {
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+
+
+    
+    echo $_SESSION['loginVazio'];
+
+    echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+
+    unset($_SESSION['loginVazio']);
+}
+// Login erro
+if (isset($_SESSION['loginErro'])) {
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+
+
+    
+    echo $_SESSION['loginErro'];
+
+    echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+
+    unset($_SESSION['loginErro']);
+}
+
+// Login não autorizado
+if (isset($_SESSION['naoAutorizar'])) {
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+
+
+    
+    echo $_SESSION['naoAutorizar'];
+
+    echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+
+    unset($_SESSION['naoAutorizar']);
+}
+
+// Login vazio
+if (isset($_SESSION['loginVazio'])) {
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+
+
+    
+    echo $_SESSION['loginVazio'];
+
+    echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+
+    unset($_SESSION['loginVazio']);
+}
+
+
+//LOG OFF
+if (isset($_SESSION['logOff'])) {
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+
+
+    
+    echo $_SESSION['logOff'];
+
+    echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+
+    unset($_SESSION['logOff']);
+}
+
+
+    
+
+
+
+
+?>
+
     </div>
 
     <p class="mt-5 text-muted">&copy; <?= date('Y') ?></p>

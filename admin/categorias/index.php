@@ -1,6 +1,8 @@
 <?php
 /* CONEXÃO COM O BANCO DE DADOS */
 require_once __DIR__ . "/../../conexao/conecta.php";
+# VERIFICANDO SE EXISTE  USUÁRIO LOGADO PARA PERMITIR ACESSO #
+include_once __DIR__ . "/../usuario_comum.php";
 
 ?>
 <!DOCTYPE html>
