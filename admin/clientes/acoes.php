@@ -55,3 +55,4 @@ if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_cliente") {
     }
 }
 ?>
+

@@ -153,9 +153,16 @@ include_once __DIR__ . "/../usuario_comum.php";
                           <i class="bi bi-pencil"></i>
                         </a>
 
-                        <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir">
+                       <!--  <a href="Excluir." class="btn btn-outline-danger btn-sm" title="Excluir">
                           <i class="bi bi-trash"></i>
-                        </a>
+                        </a> -->
+                        <!-- para excluir -->
+                        <form action="Acoes.php" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Excluir" name="deletar_categoria" value="<?php echo $categoria['codigo_categoria']?>" onclick="return confirm('Tem certaza que deseja excluir?')">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                  <!-- fim excluir -->
                       </td>
                     </tr>
 

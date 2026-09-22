@@ -1,7 +1,7 @@
 <?php 
 
  // RETORNA O CAMINHO DA URL APÓS O NOME DO HOST
- echo $url_parcial = $_SERVER['REQUEST_URI'];
+  $url_parcial = $_SERVER['REQUEST_URI'];
 
  // 0 => ""
  //1 => info_53

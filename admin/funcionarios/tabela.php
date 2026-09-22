@@ -120,7 +120,13 @@ if (mysqli_num_rows($query) > 0) {
 
             <a href="editar.php?codigo_funcionario=<?php echo $funcionario['codigo_funcionario']?>" class="btn btn-outline-success btn-sm" title="Editar"><i class="bi bi-pencil"></i></a>
 
-            <a href="excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir"><i class="bi bi-trash"></i></a>
+          <!--   <a href="excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir"><i class="bi bi-trash"></i></a> -->
+
+           <form action="Acoes.php" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Excluir" name="deletar_funcionario" value="<?php echo $funcionario['codigo_funcionario']?>" onclick="return confirm('Tem certaza que deseja excluir?')">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
 
           </td>
         </tr>
