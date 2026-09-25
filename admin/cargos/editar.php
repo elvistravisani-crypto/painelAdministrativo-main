@@ -29,7 +29,6 @@ include_once __DIR__ . "/../usuario_comum.php";
   <!-- FAVICON -->
   <link rel="shortcut icon" href="../../assets/img/favicon.ico" type="image/x-icon">
 
-
 </head>
 <body>
 
@@ -99,6 +98,7 @@ include_once __DIR__ . "/../usuario_comum.php";
 
                   <input type="submit" value="Atualizar" class="btn btn-primary mt-3 px-5">
                 </div>
+                
               </div>
             </form>
           </div>

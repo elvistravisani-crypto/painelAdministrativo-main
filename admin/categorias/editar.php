@@ -108,7 +108,7 @@ include_once __DIR__ . "/../usuario_comum.php";
            }
            else
             {
-              echo 'Nenhum categoria encontrado';
+              echo 'Nenhuma categoria encontrada';
             }
         ?>
       </main>

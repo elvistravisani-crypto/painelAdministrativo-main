@@ -8,8 +8,30 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+# CADASTRANDO UMA CATEGORIA #
 
-#CADASTRANDO UM NOVO categoria#
+if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_categoria") {
+    $categoria = mysqli_real_escape_string($conexao, $_POST['categoria']);
+    $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
+
+    $sql = "INSERT INTO categoria VALUES (0,'$categoria', '$observacao', 1, NOW())";
+
+    try {
+        if (mysqli_query($conexao, $sql)) {
+            //header('Location: index.php');
+            $_SESSION['mensagem'] = "categoria cadastrado com sucesso!";
+        } else {
+            // die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
+            $_SESSION['mensagem'] = "Erro ao cadastrar!";
+        }
+    } catch (mysqli_sql_exception) {
+        $_SESSION['mensagem'] = "Erro ao cadastrar!";
+    }
+    header('Location: inserir.php');
+}
+
+
+# EDITANDO UMA CATEGORIA #
 
 if (isset($_POST['editar']) && $_POST['editar'] == "editar_categoria") {
     $codigo = mysqli_real_escape_string($conexao, $_POST['codigo_categoria']);
@@ -36,28 +58,9 @@ if (isset($_POST['editar']) && $_POST['editar'] == "editar_categoria") {
     }
     header('Location: Index.php');
 }
-#ATUALIZANDO UM  categoria#
 
-if (isset($_POST['cadastrar']) && $_POST['cadastrar'] == "cadastrar_categoria") {
-    $categoria = mysqli_real_escape_string($conexao, $_POST['categoria']);
-    $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
 
-    $sql = "INSERT INTO categoria VALUES (0,'$categoria', '$observacao', 1, NOW())";
-
-    try {
-        if (mysqli_query($conexao, $sql)) {
-            //header('Location: index.php');
-            $_SESSION['mensagem'] = "categoria cadastrado com sucesso!";
-        } else {
-            // die("Erro: " . $sql . "<br>" . mysqli_error($conexao));
-            $_SESSION['mensagem'] = "Erro ao cadastrar!";
-        }
-    } catch (mysqli_sql_exception) {
-        $_SESSION['mensagem'] = "Erro ao cadastrar!";
-    }
-    header('Location: inserir.php');
-}
-//EXCLUINDO categoria 
+//EXCLUINDO CATEGORIA
 if (isset($_POST['deletar_categoria'])) {
     $codigo = $_POST['deletar_categoria'];
 

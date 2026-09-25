@@ -90,7 +90,7 @@ include_once __DIR__ . "/../usuario_comum.php";
                   </form>
                 </div>
 
-                <!-- CAMPO DE BUSCA POR NOME DO categoria -->
+                <!-- CAMPO DE BUSCA POR NOME DA CATEGORIA -->
                 <div class="col-4">
                   <form action="">
                     <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por categoria...">
@@ -101,75 +101,12 @@ include_once __DIR__ . "/../usuario_comum.php";
 
             <div class="card-body">
               <!-- Tabela -->
-              <table class="table">
-                <!-- Cabeçalho da Tabela -->
-                <thead class="table-dark">
-                  <!-- Table Row: Linha da Tabela -->
-                  <tr>
-                    <!-- Table Head: Título da Coluna -->
-                    <th>ID</th>
-                    <th>Categoria</th>
-                    <th>Status</th>
-                    <th>Data Cadastro</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
+           <div id="tabela">
 
-
-                <!-- CONTEÚDO VISUAL NO DA PÁGINA INICIAL DE CATEGORIAS  -->
-
-                <!-- Corpo da Tabela -->
-                <tbody>
-                  <?php foreach ($query as $categoria) { ?>
-
-                    <!-- Linha da Tabela -->
-                    <tr>
-                      <!-- Table Data: Dados da Tabela -->
-                      <td><?php echo $categoria['codigo_categoria'] ?></td>
-
-                      <td>
-                        <?php
-                         echo $categoria['nome'] 
-                         ?>
-                         </td>
-                 
-                      <!-- categoria -->
-                      <td>
-                        <?php
-                        if ($categoria['status'] == 1) {
-                          echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
-                        } else {
-                          echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
-                        }
-                        ?>
-                      </td>
-                     <!-- data -->
-                      <td>
-                        <?php echo date('d/m/Y', strtotime($categoria['data_cadastro'])) ?>
-                      </td>
-
-                      <td>
-                        <a href="Editar.php" class="btn btn-outline-success btn-sm" title="Editar">
-                          <i class="bi bi-pencil"></i>
-                        </a>
-
-                       <!--  <a href="Excluir." class="btn btn-outline-danger btn-sm" title="Excluir">
-                          <i class="bi bi-trash"></i>
-                        </a> -->
-                        <!-- para excluir -->
-                        <form action="Acoes.php" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Excluir" name="deletar_categoria" value="<?php echo $categoria['codigo_categoria']?>" onclick="return confirm('Tem certaza que deseja excluir?')">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </form>
-                  <!-- fim excluir -->
-                      </td>
-                    </tr>
-
-                  <?php } ?>
-                </tbody>
-              </table>
+           </div>
+           
             </div>
+            
           <?php
           } else {
               echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
@@ -192,6 +129,48 @@ include_once __DIR__ . "/../usuario_comum.php";
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <script>
+
+    //FUNÇÃO PARA LISTAR OS CARGOS
+    function listar(status, nome)
+    {
+        // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
+        $.ajax({
+            url: 'tabela.php',
+            method: "POST",
+            data: {
+                status: status,
+                pesquisa: nome
+            },
+            success: function(resultado) {
+                $('#tabela').html(resultado);
+            }
+        });
+
+    }
+    /* EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA */
+    $(document).ready(function(){
+      listar(); /* CARREGAR A TABELA */
+
+      /* FUNÇÃO PARA PESQUISAR PELO NOME */
+      $('#pesquisa').keyup(function(){
+        let pesquisa = $(this).val();
+
+        listar('', pesquisa);
+      })
+
+    })
+
+    /* FUNÇÃO PARA REALIZAR A BUSCA PELOS CARGOS */
+    function buscar()
+    {
+      let status = $('#status').val();
+
+      listar(status);
+    }
+
+  </script>
 </body>
 
 </html>

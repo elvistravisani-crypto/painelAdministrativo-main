@@ -1,0 +1,546 @@
+/* Reset global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   
+}
+
+/* Classes Gerais */
+body {
+    background-color: #111111;
+    padding-top: 180px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+     list-style: none;
+    text-decoration: none;
+  
+}
+/* Paleta de Cores */
+:root 
+{
+    --cor-primaria: #121212;
+    --cor-secundaria: #1a1a1a;
+}
+
+h2 {
+    margin-bottom: 30px;
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+}
+
+p,
+h3,
+h4,
+h5 
+{
+    font-family: Montserrat, sans-serif;
+
+}
+/* Inicio Main */
+
+main {
+    flex: 1;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+#rodape .col-12 ul a:hover, 
+#cabecalho .nav-link:hover,
+#cabecalho .dropdown-item:hover,
+.botao-comprar a:hover,
+.botao-adicionar a:hover
+{
+    text-decoration: underline;
+    color: yellow;
+}/* Apliquei essas regras específicas pra os icones envolvidos com 'a' n as herdem */
+
+/* Inicio Cabeçalho */
+#cabecalho .navbar 
+{
+    background-color: var(--cor-primaria);
+}
+
+.logo {
+    margin-left: 10px;
+}
+
+.logo img {
+    height: 100px;
+    width: auto;
+}
+
+.icons img {
+    height: 50px;
+    width: auto;
+
+}
+
+.icons a {
+    padding: 3px;
+
+}
+
+.icons-desktop {
+    display: none;
+
+}
+
+
+
+
+/* Final Cabeçalho */
+
+
+#banner 
+{
+    background-color: var(--cor-secundaria);
+}
+
+#banner img {
+    width: 100%;
+    height: auto;
+
+}
+
+/* ÍNICIO CARROSSEL */
+#carrossel {
+    display: flex;
+    justify-content: center;
+    color: white !important;
+    margin-bottom: 30px;
+
+
+}
+
+#carouselExampleControlsNoTouching {
+    width: 80%;
+}
+
+#carouselExampleControlsNoTouching .carousel-item img {
+    height: 250px;
+    object-fit: contain;
+}
+
+#carrossel i {
+    color: #c22626;
+    font-size: 30px;
+
+
+
+}
+
+.carrossel-titulo {
+    text-align: center;
+    margin-top: 50px;
+
+}
+
+.fundo h4 {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 20px;
+    font-family: Montserrat, sans-serif;
+    text-align: center;
+    margin-top: 15px;
+    background-color: #786a6a;
+
+
+}
+
+.fundo {
+    background-color: #ffffff;
+
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 8px;
+
+}
+
+/* Final CARROSSEL */
+
+
+/* ÍNICIO Sobre */
+
+#sobre {
+    background-color: var(--cor-secundaria);
+}
+
+#sobre h2 {
+    text-align: center;
+
+}
+
+#sobre img {
+    width: 100%;
+    height: auto
+}
+
+/* Final Sobre */
+
+
+/* Inicio sessão localização */
+#localizacao iframe {
+    border-radius: 8px;
+
+}
+
+/* Final sessão localização */
+
+
+
+/* ÍNICIO rodape */
+
+#rodape {
+    padding-top: 50px;
+    margin-top: 100px;
+    background-color: var(--cor-secundaria);
+}
+
+#rodape a {
+    color: white;
+}
+
+.redes-sociais svg,
+.formas-pagamento svg
+{
+    width: 50px;
+    height: auto;
+}
+
+
+.formas-pagamento
+{
+    margin-top: 50px;
+
+}
+
+.titulo-pagamento {
+    margin-top: 50px;
+}
+
+.row-final a {
+    margin-top: 100px;
+}
+
+/* Final rodape */
+
+/* >>>>>>>>>>>>>>>CPU - PRODUTOS<<<<<<<<<<<<<< */
+
+#produtos-cpu {
+    margin-top: 8%;
+
+}
+.nome
+{
+    height: 120px;
+}
+
+
+/* estilização da caixa do produto */
+
+.produto
+{
+    background-color: var(--cor-secundaria);
+}
+.imagem img
+{
+   
+    transition: transform 0.5s ease;
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+}
+
+.imagem img:hover {
+    transform: scale(1.1);
+    
+}
+.imagem
+{
+    background-color: #f0f0f0;
+    padding: 3px;
+   border-radius: 8px;
+}
+.imagem:hover{
+    background-color: white;
+}
+.nome
+{
+    margin-top: 15px;
+}
+
+
+
+.preco
+{
+    font-size: 22px;
+    color: green;
+    font-weight:700;
+}
+/* estilização do botão comprar */
+.botao-comprar a
+{
+    border: solid;
+    padding: 15px;
+    border-radius: 8px;
+    color:white;
+    background-color: #000000;
+    border-width: 5px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    display: block;    /* para conseguir aplcar o width */
+    width: 150px;
+    margin: 0 auto; /* para centralizar o 'a' */
+
+}
+.botao-comprar
+{
+    margin-top: 15px;
+    text-align: center;
+}
+.botao-adicionar a
+{
+    border: solid;
+    border-radius: 8px;
+    color:white;
+    background-color: #000000;
+    border-width: 5px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    display: block;    /* para conseguir aplcar o width */
+    width: 150px;
+    margin: 0 auto; /* para centralizar o 'a' */
+}
+.botao-adicionar
+{
+    margin-top: 15px;
+    text-align: center;
+    margin-bottom: 35px;
+   
+    
+}
+
+/*>>>>>>>>>>>>> Estilização da página comprar <<<<<<<<<<<< */
+#comprar
+{
+    background-color: var(--cor-secundaria);
+
+}
+#comprar .produto-comprar
+{
+    background-color: #797777;
+    height: 250px;
+    border-radius: 8px;
+    
+}
+.produto-comprar img
+{
+    background-color: #f0f0f0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.produto-comprar img:hover{
+    background-color: white;
+    border-radius: 8px;
+
+}
+.desc-produto
+{
+    margin-top: 20px;
+}
+#comprar input
+{
+   width: 148px;
+   height: auto;
+   border-radius: 4px;
+   border:snow;
+  
+}
+/* Estilização da página comprar */
+#login .input
+{
+
+        width: 300px;
+        height: 10px;
+        margin-top: 15px;
+        border-radius: 4px;
+        border:snow;
+    
+}
+#login
+{
+     
+    padding-bottom: 200px;
+}
+
+
+
+
+
+
+
+
+/* Método "Mobile First" */
+
+/* Padrão, iPhone Retina */
+@media (min-width: 320px) {
+    #comprar input
+    {
+        margin-bottom: 15px;
+    }
+}
+
+/* Dispositivos Pequenos, Smartphones */
+@media (min-width: 375px) 
+{
+  #comprar input
+  {
+    margin-top: 15px;
+  }
+}
+
+/* Dispositivos Pequenos, Smartphones */
+@media (min-width: 425px) 
+{
+  .produto-comprar img
+  {
+    max-width: 100%;
+  }
+ 
+}
+
+/* Dispositivos Pequenos (telefones em modo paisagem, com 576px ou mais) */
+@media (min-width: 576px) {}
+
+/* Dispositivos Pequenos, Tablets */
+@media (min-width: 768px) {
+    body {
+        padding-top: 75px;
+
+    }
+
+    .icons-mobile {
+        display: none;
+    }
+
+    .icons-desktop {
+        display: flex;
+
+    }
+
+    #carouselExampleControlsNoTouching .carousel-item img {
+        height: 350px;
+        object-fit: contain;
+    }
+
+    #sobre {
+        margin-top: 100px;
+        margin-bottom: 150px;
+        padding-top: 100px;
+    }
+    .row-final .col
+    {
+        margin-top: 20px !important;
+        display: flex !important; 
+    }
+    /* estilização da produto-cpu */
+    .nome
+    {
+        height: 150px;
+    }
+    /* <<<<<<<<<< Estilização da página comprar  >>>>>>>> */
+    #comprar
+    {
+        padding-top: 100px;
+        line-height: 30px;
+    }
+    #comprar .produto-comprar
+{
+    background-color: #797777;
+    height: 300px;
+    border-radius: 8px;
+    margin-right: 30px;
+    
+}
+/* estilização do caminhao e input calcular frete */
+#comprar input
+{
+    width: 300px;
+    height: 40px;
+    margin-top: 70px;
+}
+#login
+{
+    padding-top: 100px;
+
+}
+    
+ 
+
+}
+
+/* Dispositivos Médios, Desktops */
+@media (min-width: 992px) {
+
+    #cabecalho .navbar {
+        padding-right: 25px;
+    }
+
+    .logo img {
+        height: 150px;
+        width: auto;
+    }
+
+    #cabecalho form {
+        width: 400px;
+    }
+        #comprar .produto-comprar
+{
+
+    height: 450px;
+    border-radius: 8px;  
+    
+}
+  #comprar input
+  {
+    margin-top: 130px;
+  }
+
+
+}
+
+/* Dispositivos Grandes */
+@media (min-width: 1200px)
+ {
+            #comprar .produto-comprar
+{
+    background-color: #797777;
+    height: 650px;
+    border-radius: 8px;
+  
+    
+}
+ #comprar
+    {
+        padding-top: 150px;
+        line-height: 40px;
+    }
+    #comprar .produto-comprar 
+    {
+        margin-right: 60px;
+    }
+ }
+
