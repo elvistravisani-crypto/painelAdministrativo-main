@@ -93,34 +93,18 @@
               if(mysqli_num_rows($query) > 0)
                 {
                 
-             
+               
             ?>
 
           <div class="card-body">
 
+          <!-- TRAZENDO TODOS OS CAMPOS DE FILTRO DE PESQUISA -->
             <div class="row pb-2">
-              <!-- FILTRO POR SEXO -->
-              <div class="col-2">
-                <form action="">
-
-                  <select name="sexo" id="sexo" class="form-control" onchange="buscar()">
-
-                    <option value="">Sexo </option>
-                    <option value="M">Masculino </option>
-                    <option value="F">Feminino </option>
-                    <option value="N">Não informado</option>
-
-                  </select>
-
-                </form>
-
-              </div>
-
+             
+              <!-- FILTRO POR STATUS -->
                <div class="col-2">
                 <form action="">
-
-              <!-- FILTRO POR STATUS -->
-                  <select name="status" id="status" class="form-control"onchange="buscar()">
+                  <select name="status" id="status" class="form-control" onchange="buscar()">
 
                     <option value="">Status </option>
                     <option value="1">Ativo </option>
@@ -132,23 +116,23 @@
 
               </div>
 
+                 <!-- FILTRO POR CATEGORIA -->
                 <div class="col-2">
                 <form action="">
 
-                  <select name="cargo" id="cargo" class="form-control"onchange="buscar()">
+                  <select name="categoria" id="categoria" class="form-control" onchange="buscar()">
 
-                    <option value="">Cargo </option>
+                    <option value="">Categoria </option>
                     <?php 
-
                       
-                      $sql_cargo = "SELECT codigo_cargo, nome FROM cargo WHERE status = 1";
+                      $sql_categoria = "SELECT codigo_categoria, nome FROM categoria WHERE status = 1";
 
-                      $query_cargo = mysqli_query($conexao, $sql_cargo);
+                      $query_categoria = mysqli_query($conexao, $sql_categoria);
                     
-                      foreach($query_cargo as $cargo)
+                      foreach($query_categoria as $categoria)
                         {
                           // CONCATENANDO O NOME COM VALOR
-                         echo '<option value="'. $cargo['codigo_cargo'] .'">'.$cargo['nome'].'</option>';
+                         echo '<option value="'. $categoria['codigo_categoria'] .'">'.$categoria['nome'].'</option>';
                         }
                     ?>
 
@@ -158,42 +142,40 @@
 
               </div>
 
-                <div class="col-2">
+                 <!-- FILTRO POR MARCA -->
+                  <div class="col-2">
                 <form action="">
 
-                  <select name="cidade" id="cidade" class="form-control"onchange="buscar()">
+                  <select name="marca" id="marca" class="form-control" onchange="buscar()">
 
-                    <option value="">Cidade </option>
+                    <option value="">Marca </option>
+                    <?php 
+                      
+                      $sql_marca = "SELECT codigo_marca, nome FROM marca WHERE status = 1";
 
-                    <?php
+                      $query_marca = mysqli_query($conexao, $sql_marca);
                     
-                    // TRAZER APENAS UMA VEZ A CIDADE
-                    $sql = "SELECT DISTINCT cidade FROM produto";
-
-                    $query_cidade = mysqli_query($conexao, $sql);
-
-                    foreach($query_cidade as $cidade)
-                      {
-                        echo '<option value="'.$cidade['cidade'].'">'.$cidade['cidade'].'</option>';
-                      }
-
+                      foreach($query_marca as $marca)
+                        {
+                          // CONCATENANDO O NOME COM VALOR
+                         echo '<option value="'. $marca['codigo_marca'] .'">'.$marca['nome'].'</option>';
+                        }
                     ?>
-
-                    
 
                   </select>
 
                 </form>
 
               </div>
+            
 
               <!-- BUSCA POR NOME -->
-              <div class="col-4">
+              <div class="col-6">
 
                 <form action="" method="POST">
 
-                  <!-- TIPO SEARCH SO DE DA ENTER ELE ENTENDE QUE PRECISA FAZER UMA BUSCA, E NAO VAI PRECISAR DE UM BOTÃO -->
-                  <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do Funcionário">
+                  <!-- TIPO  SO DE DA ENTER ELE ENTENDE QUE PRECISA FAZER UMA BUSCA, E NAO VAI PRECISAR DE UM BOTÃO -->
+                  <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do Produto">
                 </form>
 
               </div>
@@ -239,18 +221,17 @@
   <!-- FILTROS -->
    <script>
 
-      //FUNÇÃO PARA LISTAR OS produtoS
-      function listar(sexo, status, cargo, cidade, nome)
-      {   
+      //FUNÇÃO PARA LISTAR OS PRODUTOS
+      function listar(status, categoria, marca, nome)
+      { 
           // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
           $.ajax({
               url: 'tabela.php',
               method: "POST",
               data: {
-                  sexo: sexo,
                   status: status,
-                  cargo: cargo,
-                  cidade: cidade,
+                  categoria: categoria,
+                  marca: marca,
                   pesquisa: nome
               },
               success: function(resultado) {
@@ -260,27 +241,26 @@
 
       } 
 /* EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA */
- $(document).ready(function(){
+   $(document).ready(function(){
   listar(); /* CARREGAR A TABELA */  
 
 /* FUNÇÃO PARA PESQUISAR PELO NOME  */
 $('#pesquisa').keyup(function(){
   let pesquisa = $(this).val();
 
-  listar('', '', '', '', pesquisa);
+  listar('', '', '', pesquisa);
 })
 
- })
+   })
 
-/* FUNÇÃO PARA REALIZAR A BUSCA PELOS FUNCIONÁRIOS */
+/* FUNÇÃO PARA REALIZAR A BUSCA PELOS PRODUTOS */
       function buscar()
       {
-        let sexo = $('#sexo').val();
         let status = $('#status').val();
-        let cargo = $('#cargo').val();
-        let cidade = $('#cidade').val();
+        let categoria = $('#categoria').val();
+        let marca = $('#marca').val();
 
-        listar(sexo, status, cargo, cidade);
+        listar(status, categoria, marca);
 
 
       }
