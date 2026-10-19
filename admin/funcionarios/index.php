@@ -66,7 +66,7 @@
         include('../Log.php');
 
         // Mensagem de erro ou sucesso
-        include('../Mensagem.php');
+        include('../mensagem.php');
         ?>
 
         <div class="card">
@@ -74,7 +74,7 @@
           <div class="card-header d-flex justify-content-between">
             <h4 class="m-0">Funcionários</h4>
 
-            <a href="Inserir.php" class="btn btn-primary btn-sm">
+            <a href="inserir.php" class="btn btn-primary btn-sm">
               <i class="bi bi-plus"></i>
 
               Adicionar

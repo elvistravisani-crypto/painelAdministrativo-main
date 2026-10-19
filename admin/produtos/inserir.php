@@ -155,7 +155,7 @@ require_once __DIR__ . "/../../conexao/conecta.php";
                                 <!-- Descrição -->
                                 <div class="col-9 mb-3">
                                     <label for="descricao">Descrição: </label>
-                                    <input type="text" name="descricao" id="descricao" class="form-control" maxlength="50">
+                                    <input type="text" name="descricao" id="descricao" class="form-control" maxlength="150">
                                 </div>
 
                                 <!-- Foto 1 -->

@@ -1,10 +1,12 @@
-<?php
-/* CONEXÃO COM O BANCO DE DADOS */
-require_once __DIR__ . "/../../conexao/conecta.php";
-# VERIFICANDO SE EXISTE  USUÁRIO LOGADO PARA PERMITIR ACESSO #
-include_once __DIR__ . "/../usuario_comum.php";
+<?php 
+
+  // conexao com o banco
+  require_once __DIR__ . "/../../conexao/conecta.php";
+  # VERIFICANDO SE EXISTE  USUÁRIO LOGADO PARA PERMITIR ACESSO #
+  include_once __DIR__ . "/../usuario_comum.php";
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -25,15 +27,20 @@ include_once __DIR__ . "/../usuario_comum.php";
   <!-- CUSTOMIZAÇÃO DO TEMPLATE -->
   <link rel="stylesheet" href="../../assets/css/dashboard.min.css">
   <link rel="stylesheet" href="../../assets/css/styles.min.css">
+  <link rel="stylesheet" href="../../custom/css/style.css">
 
   <!-- FAVICON -->
   <link rel="shortcut icon" href="../../assets/img/favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../custom/css/style.css">
 
 
 </head>
 
 <body>
-
+   
+<!--<<<<<<<<<<<<<< INCLUDES >>>>>>>>>>>>> -->
   <?php
   #Início TOPO
   include('../Topo.php');
@@ -47,13 +54,20 @@ include_once __DIR__ . "/../usuario_comum.php";
       include('../Navegacao.php');
       #Final MENU
       ?>
+<!--<<<<<<<<<<<<<< INCLUDES >>>>>>>>>>>>> -->
+
 
       <main class="ms-auto col-lg-10 px-md-4">
         <?php
+        //Boas-vindas mostrando o usuário que esta logado
         include('../Log.php');
+
+        // Mensagem de erro ou sucesso
+        include('../mensagem.php');
         ?>
 
         <div class="card">
+
           <div class="card-header d-flex justify-content-between">
             <h4 class="m-0">Clientes</h4>
 
@@ -62,123 +76,188 @@ include_once __DIR__ . "/../usuario_comum.php";
 
               Adicionar
             </a>
+
           </div>
 
-          <?php
+          <!-- CÓDIGO DO SELECT -->
 
-          $sql = "SELECT codigo_cliente, nome, email, telefone, status, data_nascimento FROM cliente";
+            <?php 
+                // CODIGO SQL SO COM ID PARA NAO PESAR O SELECT PORQUE O SELECT QUE VALE PARA OS DADOS SERIA O DO ARQUIVO tabela.php
+              $sql = "SELECT codigo_cliente FROM cliente";
 
-          $query = mysqli_query($conexao, $sql);
+              // A FUNÇÃO DO MYSQL_QUERY REALIZA A CONEXÃO COM O BANCO DE DADOS E EXECUTA O COMANDO SQL
+              $query = mysqli_query($conexao, $sql);
 
-          if (mysqli_num_rows($query) > 0) {
+              if(mysqli_num_rows($query) > 0)
+                {
+                
+             
+            ?>
 
-          ?>
+          <div class="card-body">
 
-            <div class="card-body">
-              <div class="row">
-                <!-- FILTRO POR STATUS -->
-                <div class="col-2">
-                  <form action="">
-                    <select name="status" id="status" class="form-control">
-                      <option value="">Status</option>
-                      <option value="1">Ativo</option>
-                      <option value="0">Inativo</option>
-                    </select>
-                  </form>
-                </div>
+            <div class="row pb-2">
+              <!-- FILTRO POR SEXO -->
+              <div class="col-2">
+                <form action="">
 
-                <!-- CAMPO DE BUSCA POR NOME -->
-                <div class="col-4">
-                  <form action="">
-                    <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Pesquise por nome...">
-                  </form>
-                </div>
+                  <select name="sexo" id="sexo" class="form-control" onchange="buscar()">
+
+                    <option value="">Sexo </option>
+                    <option value="M">Masculino </option>
+                    <option value="F">Feminino </option>
+                    <option value="N">Não informado</option>
+
+                  </select>
+
+                </form>
+
               </div>
+
+               <div class="col-2">
+                <form action="">
+
+              <!-- FILTRO POR STATUS -->
+                  <select name="status" id="status" class="form-control"onchange="buscar()">
+
+                    <option value="">Status </option>
+                    <option value="1">Ativo </option>
+                    <option value="0">Inativo </option>
+
+                  </select>
+
+                </form>
+
+              </div>
+
+
+                <div class="col-2">
+                <form action="">
+
+                  <select name="cidade" id="cidade" class="form-control"onchange="buscar()">
+
+                    <option value="">Cidade </option>
+
+                    <?php
+                    
+                    // TRAZER APENAS UMA VEZ A CIDADE
+                    $sql = "SELECT DISTINCT cidade FROM cliente";
+
+                    $query_cidade = mysqli_query($conexao, $sql);
+
+                    foreach($query_cidade as $cidade)
+                      {
+                        echo '<option value="'.$cidade['cidade'].'">'.$cidade['cidade'].'</option>';
+                      }
+
+                    ?>
+
+                    
+
+                  </select>
+
+                </form>
+
+              </div>
+
+              <!-- BUSCA POR NOME -->
+              <div class="col-6">
+
+                <form action="" method="POST">
+
+                  <!-- TIPO SEARCH SO DE DA ENTER ELE ENTENDE QUE PRECISA FAZER UMA BUSCA, E NAO VAI PRECISAR DE UM BOTÃO -->
+                  <input type="search" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do Cliente">
+                </form>
+
+              </div>
+
             </div>
 
-            <div class="card-body">
-              <!-- Tabela -->
-              <table class="table">
-                <!-- Cabeçalho da Tabela -->
-                <thead class="table-dark">
-                  <!-- Table Row: Linha da Tabela -->
-                  <tr>
-                    <!-- Table Head: Título da Coluna -->
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <th>Status</th>
-                    <th>Data nascimento</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
+          </div>
 
-                <!-- Corpo da Tabela -->
-                <tbody>
-                  <?php foreach ($query as $cliente) { ?>
+          <div class="card-body p-0">
+           <!-- ONDE VAI APARECER A TABELA -->
+            <div id="tabela"></div>
 
-                    <!-- Linha da Tabela -->
-                    <tr>
-                      <!-- Table Data: Dados da Tabela -->
-                      <td><?php echo $cliente['codigo_cliente'] ?></td>
+          </div>
 
-                      <td><?php echo $cliente['nome'] ?></td>
-
-                      <td><?php echo $cliente['email'] ?></td>
-
-                      <td><?php echo $cliente['telefone'] ?></td>
-
-                      <!-- Status -->
-                      <td>
-                        <?php
-                        if ($cliente['status'] == 1) {
-                          echo '<span class="badge rounded-pill text-bg-success">Ativo</span>';
-                        } else {
-                          echo '<span class="badge rounded-pill text-bg-danger">Inativo</span>';
-                        }
-                        ?>
-                      </td>
-
-                      <!-- data -->
-                      <td>
-                        <?php echo date('d/m/Y', strtotime($cliente['data_nascimento'])) ?>
-                      </td>
-
-                      <td>
-                        <a href="Editar.php" class="btn btn-outline-success btn-sm" title="Editar">
-                          <i class="bi bi-pencil"></i>
-                        </a>
-
-                        <a href="Excluir.php" class="btn btn-outline-danger btn-sm" title="Excluir">
-                          <i class="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-
-                  <?php } ?>
-                </tbody>
-              </table>
-            </div>
-          <?php
-          } else {
+            <?php 
+                }
+                else
+                  {
               echo '<div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
                     Nenhum registro encontrado
-                  </div>';
-          }
-          ?>
+                  </div>
+                </div>';
+                  }
+
+            ?>
 
         </div>
+
       </main>
+
     </div>
+
   </div>
 
-  <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
-  <?php mysqli_close($conexao) ?>
+  <!-- fechar a conexão do banco -->
+ <?php mysqli_close($conexao)?>
+
   <!-- JQUERY CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- BOOTSTRAP JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <!-- FILTROS -->
+   <script>
+
+      //FUNÇÃO PARA LISTAR OS CLIENTES
+      function listar(sexo, status, cidade, nome)
+      {   
+          // PEGA O ELEMENTO QUE TEM O ID TABELA E COLOCA O RESULTADO DO AJAX DENTRO DELE
+          $.ajax({
+              url: 'tabela.php',
+              method: "POST",
+              data: {
+                  sexo: sexo,
+                  status: status,
+                  cidade: cidade,
+                  pesquisa: nome
+              },
+              success: function(resultado) {
+                  $('#tabela').html(resultado);
+              }
+          });
+
+      } 
+/* EXECUTAR AS FUNÇÕES AO CARREGAR A PÁGINA */
+ $(document).ready(function(){
+  listar(); /* CARREGAR A TABELA */  
+
+/* FUNÇÃO PARA PESQUISAR PELO NOME  */
+$('#pesquisa').keyup(function(){
+  let pesquisa = $(this).val();
+
+  listar('', '', '', pesquisa);
+})
+
+ })
+
+/* FUNÇÃO PARA REALIZAR A BUSCA PELOS CLIENTES */
+      function buscar()
+      {
+        let sexo = $('#sexo').val();
+        let status = $('#status').val();
+        let cidade = $('#cidade').val();
+
+        listar(sexo, status, cidade);
+
+
+      }
+      
+   </script>
+
 </body>
 
 </html>
