@@ -28,7 +28,7 @@
 </head>
 
 <body>
-  <?php require 'includes/cabecalho.php'; ?>
+  <?php require 'cabecalho.php'; ?>
   <main>
     <!--<<<<<<<<<<<<<<<< Inicio da Sessão Banner >>>>>>>>>>>>>>>-->
 
@@ -159,7 +159,7 @@
   </main>
 
     <!--<<<<<<<<<<<<<<<<Rodapé >>>>>>>>>>>>>>>-->
- <?php require 'includes/rodape.php'; ?>
+ <?php require 'rodape.php'; ?>
 
 
 

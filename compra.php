@@ -1,3 +1,22 @@
+<?php
+require_once __DIR__ . "/conexao/conecta.php";
+
+$codigo_produto = intval($_GET['codigo_produto'] ?? 0);
+
+$sql = "SELECT codigo_produto, nome, descricao, preco_produto, ft_produto_1
+        FROM produto
+        WHERE codigo_produto = ? AND status + 0 = 1";
+
+$stmt = mysqli_prepare($conexao, $sql);
+mysqli_stmt_bind_param($stmt, "i", $codigo_produto);
+mysqli_stmt_execute($stmt);
+$produto = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+
+if (!$produto) {
+    header('Location: index.php');
+    exit;
+}
+?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -29,29 +48,29 @@
 
 <body>
     <!-- Cabeçalho -->
-    <?php require 'includes/cabecalho.php'; ?>
+    <?php require 'cabecalho.php'; ?>
 
     <main id="comprar">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-8">
                     <div class="produto-comprar">
-                        <img src="assets/img/cpu/cpu-intel (11).PNG" alt="cpu">
+                        <?php if (!empty($produto['ft_produto_1'])) { ?>
+                            <img src="imagens/<?php echo htmlspecialchars($produto['ft_produto_1']); ?>"
+                                alt="<?php echo htmlspecialchars($produto['nome']); ?>">
+                        <?php } else { ?>
+                            <img src="assets/img/placeholder.png" alt="Sem imagem">
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 mt-1">
-                    <p>Processador Intel Core i7-12700, Cache 25MB, 2.1GHz (4.9GHz Max Turbo), LGA 1700 -
-                        BX8071512700</p>
-                    <p>Especificações Técnicas: Arquitetura de 12ª Geração com P-cores de 2.1GHz e E-cores de
-                        1.6GHz, alcançando até 4.9GHz Max Turbo, para desempenho otimizado
-                        Compatibilidade: Funciona com soquetes LGA 1700 e chipsets Intel série 600, suportando
-                        memórias DDR5 e DDR4
-                        Performance e Benchmarks: Otimizado para jogos e produtividade, com Intel Thread Director 2,
-                        ideal para gamers e aplicações exigentes
-                        Recursos Avançados: Possui Intel Wi-Fi 6E e Thunderbolt 4, com ferramentas de overclocking
-                        para personalização de desempenho</p>
+                    <p><?php echo htmlspecialchars($produto['nome']); ?></p>
+                    <?php if (!empty($produto['descricao'])) { ?>
+                        <p><?php echo htmlspecialchars($produto['descricao']); ?></p>
+                    <?php } ?>
                     <div class="preco">
-                        <p>R$ 1.899,99<span style="color: white; font-size: 12px;"> À vista no PIX com 20% de
+                        <p>R$ <?php echo number_format($produto['preco_produto'], 2, ',', '.'); ?><span
+                                style="color: white; font-size: 12px;"> À vista no PIX com 20% de
                                 desconto</span></p>
                     </div>
                     <div class="botao-comprar">
@@ -197,16 +216,19 @@
 
                     </div>
                     <div class="col-6">
-                        <input type="text " placeholder="Inserir CEP">
-                        
+                        <input type="text" placeholder="Inserir CEP">
+
                         <button type="button" class="btn btn-success">Calcular Frete</button>
                     </div>
 
                 </div>
             </div>
+        </div>
     </main>
     <!-- Rodapé -->
-    <?php require 'includes/rodape.php'; ?>
+    <?php require 'rodape.php'; ?>
+
+    <?php mysqli_close($conexao); ?>
 
     <!-- my Js -->
     <script src="assets/Js/script.js"></script>

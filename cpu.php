@@ -1,3 +1,53 @@
+<?php
+require_once __DIR__ . "/conexao/conecta.php";
+
+// Nome da categoria cadastrada no painel
+$nome_categoria = "Processadores";
+
+// Marca escolhida no filtro (0 = todas)
+$codigo_marca = intval($_GET['marca'] ?? 0);
+
+// Marcas que possuem processadores ativos
+$sql_marcas = "SELECT DISTINCT marca.codigo_marca, marca.nome
+               FROM produto
+               INNER JOIN categoria ON categoria.codigo_categoria = produto.codigo_categoria
+               INNER JOIN marca ON marca.codigo_marca = produto.codigo_marca
+               WHERE produto.status = 1
+                 AND categoria.status = 1
+                 AND categoria.nome = ?
+               ORDER BY marca.nome";
+
+$stmt_marcas = mysqli_prepare($conexao, $sql_marcas);
+mysqli_stmt_bind_param($stmt_marcas, "s", $nome_categoria);
+mysqli_stmt_execute($stmt_marcas);
+$marcas = mysqli_stmt_get_result($stmt_marcas);
+
+// Produtos
+$sql = "SELECT produto.codigo_produto, produto.nome, produto.preco_produto,
+               produto.ft_produto_1
+        FROM produto
+        INNER JOIN categoria ON categoria.codigo_categoria = produto.codigo_categoria
+        WHERE produto.status = 1
+          AND categoria.status = 1
+          AND categoria.nome = ?";
+
+if ($codigo_marca > 0) {
+  $sql .= " AND produto.codigo_marca = ?";
+}
+
+$sql .= " ORDER BY produto.nome";
+
+$stmt = mysqli_prepare($conexao, $sql);
+
+if ($codigo_marca > 0) {
+  mysqli_stmt_bind_param($stmt, "si", $nome_categoria, $codigo_marca);
+} else {
+  mysqli_stmt_bind_param($stmt, "s", $nome_categoria);
+}
+
+mysqli_stmt_execute($stmt);
+$produtos = mysqli_stmt_get_result($stmt);
+?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -29,326 +79,77 @@
 
 <body>
   <!-- Cabeçalho -->
-  <?php require 'includes/cabecalho.php'; ?>
+  <?php require 'cabecalho.php'; ?>
 
   <main id="produtos-cpu">
 
     <div class="container">
       <div class="row align-items-start">
         <h2>CPU</h2>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (11).PNG" alt="Cpu">
 
-            </div>
-            <div class="nome">
-              <h4>Processador Intel Core i7-12700, Cache 25MB, 2.1GHz (4.9GHz Max Turbo), LGA 1700 - BX8071512700</h4>
+        <!-- Filtro por marca -->
+        <div class="col-12 mb-4 d-flex flex-wrap gap-2">
+          <a href="cpu.php" class="btn btn-sm <?php echo $codigo_marca == 0 ? 'btn-light' : 'btn-outline-light'; ?>">
+            Todas
+          </a>
 
-            </div>
-            <div class="preco">
-              <p>R$ 1.899,99</p>
-
-            </div>
-            <div class="botao-comprar">
-              <a href="compra.php">COMPRAR</a>
-            </div>
-
-          </div>
+          <?php foreach ($marcas as $marca) { ?>
+            <a href="cpu.php?marca=<?php echo $marca['codigo_marca']; ?>"
+              class="btn btn-sm <?php echo $codigo_marca == $marca['codigo_marca'] ? 'btn-light' : 'btn-outline-light'; ?>">
+              <?php echo htmlspecialchars($marca['nome']); ?>
+            </a>
+          <?php } ?>
         </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (2).PNG" alt="Cpu">
 
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
+        <?php if (mysqli_num_rows($produtos) > 0) { ?>
 
+          <?php foreach ($produtos as $produto) { ?>
 
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="produto">
 
+                <div class="imagem">
+                  <?php if (!empty($produto['ft_produto_1'])) { ?>
+                    <img src="imagens/<?php echo htmlspecialchars($produto['ft_produto_1']); ?>"
+                      alt="<?php echo htmlspecialchars($produto['nome']); ?>">
+                  <?php } else { ?>
+                    <img src="assets/img/placeholder.png" alt="Sem imagem">
+                  <?php } ?>
+                </div>
 
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
+                <div class="nome">
+                  <h4><?php echo htmlspecialchars($produto['nome']); ?></h4>
+                </div>
 
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (10).PNG" alt="Cpu">
+                <div class="preco">
+                  <p>R$ <?php echo number_format($produto['preco_produto'], 2, ',', '.'); ?></p>
+                </div>
 
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
+                <div class="botao-comprar">
+                  <a href="compra.php?codigo_produto=<?php echo $produto['codigo_produto']; ?>">COMPRAR</a>
+                </div>
 
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
+              </div>
             </div>
 
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (8).PNG" alt="Cpu">
+          <?php } ?>
 
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
+        <?php } else { ?>
 
+          <p class="text-center">Nenhuma CPU disponível no momento.</p>
 
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
+        <?php } ?>
 
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (12).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (6).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (7).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (8).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (9).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (10).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4></h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (11).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (10).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (11).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-4 col-lg-3 mb-5">
-          <div class="produto">
-            <div class="imagem">
-              <img src="assets/img/cpu/cpu-intel (12).PNG" alt="Cpu">
-
-            </div>
-            <div class="nome">
-              <h4>Processador Intel I3-12100F, 3.3GHz, Cache 12MB, Quad Core, 8 Threads, LGA 1700</h4>
-
-
-            </div>
-            <div class="preco">
-              <p>R$ 588,66</p>
-
-
-            </div>
-            <div class="botao-comprar">
-              <a href="#">COMPRAR</a>
-            </div>
-
-          </div>
-        </div>
       </div>
     </div>
 
   </main>
 
   <!-- Rodapé -->
-<?php require 'includes/rodape.php'; ?>
+  <?php require 'rodape.php'; ?>
+
+  <!-- fechar a conexão do banco -->
+  <?php mysqli_close($conexao); ?>
 
   <!-- my Js -->
   <script src="assets/Js/script.js"></script>

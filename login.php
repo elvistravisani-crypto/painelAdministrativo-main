@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <?php require 'includes/cabecalho.php'; ?>
+    <?php require 'cabecalho.php'; ?>
 
     <main id="login">
 
@@ -82,7 +82,7 @@
 
 
     <!-- Rodapé -->
-    <?php require 'includes/rodape.php'; ?>
+    <?php require 'rodape.php'; ?>
 
 
     <!-- my Js -->

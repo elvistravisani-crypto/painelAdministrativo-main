@@ -71,6 +71,13 @@
           Clientes
         </a>
       </li>
-    </ul>
+
+      <li class="nav-item">
+  <a class="nav-link text-danger" href="<?php echo $url ?>/../index.php">
+    <i class="bi bi-people-fill"></i>
+    Voltar para o site
+  </a>
+</li>
+</ul>
   </div>
 </nav>

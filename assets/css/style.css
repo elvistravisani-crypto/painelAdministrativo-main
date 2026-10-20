@@ -18,6 +18,14 @@ body {
     text-decoration: none;
   
 }
+.img-funcionario
+{
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: grey;
+    }
 /* Paleta de Cores */
 :root 
 {
